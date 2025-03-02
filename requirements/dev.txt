@@ -1,0 +1,4 @@
+-r base.txt
+pytest==8.3.4
+flake8==7.1.2
+setuptools==75.8.2
