@@ -2,7 +2,7 @@ import click
 import os
 import sys
 from typing import Optional
-from analyzers.main import analyze_dockerfile
+from .analyzers.main import analyze_dockerfile
 
 
 @click.group()
