@@ -2,6 +2,7 @@ import click
 import os
 import sys
 from typing import Optional
+from analyzers.main import analyze_dockerfile
 
 
 @click.group()
@@ -26,6 +27,7 @@ def analyze(dockerfile: str, output: Optional[str], verbose: bool):
     """
     try:
         click.echo(f"Analyzing {dockerfile}...")
+        analyze_dockerfile(dockerfile)
         if verbose:
             click.echo("Analysis in detailed mode has been launched...")
 
