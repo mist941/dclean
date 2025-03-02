@@ -4,7 +4,7 @@ from dockerfile_parse import DockerfileParser
 from .analyze_from import analyze_from
 
 # Type definition for analyzer functions
-AnalyzerFunc = Callable[[Dict[str, Any]], None]
+AnalyzerFunc = Callable[[Dict[str, Any]], List[str]]
 
 # Dictionary mapping Dockerfile instructions to their analyzer functions
 analyzers_dict: Dict[str, AnalyzerFunc] = {
@@ -12,7 +12,7 @@ analyzers_dict: Dict[str, AnalyzerFunc] = {
 }
 
 
-def analyze_dockerfile(dockerfile_path: str) -> List[Dict[str, Any]]:
+def analyze_dockerfile(dockerfile_path: str) -> List[Dict[str, List[str]]]:
     """
     Analyze a Dockerfile and return the analysis results.
     
@@ -46,7 +46,10 @@ def analyze_dockerfile(dockerfile_path: str) -> List[Dict[str, Any]]:
         if analyzer is not None:
             # Run the analyzer and collect results
             result = analyzer(instruction)
-            results.append({'instruction': instruction, 'analysis': result})
+            results.append({
+                'instruction': instruction_type,
+                'analysis': result
+            })
         else:
             # Log unsupported instructions
             results.append({
@@ -55,5 +58,5 @@ def analyze_dockerfile(dockerfile_path: str) -> List[Dict[str, Any]]:
                 'analysis':
                 f"No analyzer available for {instruction_type}"
             })
-    print(results)
+
     return results
