@@ -1,5 +1,6 @@
 from typing import Dict, Any, List
 from dclean.api.get_repository_tags import get_repository_tags
+from dclean.utils import get_recommendation
 
 
 def get_repository_name(instruction_value: str) -> str:
@@ -87,6 +88,7 @@ def analyze_from(instruction: Dict[str, Any]) -> List[str]:
     if "slim" in instruction_value.lower():
         return []
 
+    recommendation = get_recommendation("FROM")
     repository_name = get_repository_name(instruction_value)
     current_version = get_repository_version(instruction_value)
 
@@ -96,18 +98,16 @@ def analyze_from(instruction: Dict[str, Any]) -> List[str]:
     # Filter for slim versions
     slim_tags = [tag for tag in tags if "slim" in tag.lower()]
 
+    prepared_tags = slim_tags[-5:]
+
     # If no slim versions found for specific version, try all tags
     if not slim_tags:
         all_tags = get_repository_tags(repository_name)
         slim_tags = [tag for tag in all_tags if "slim" in tag.lower()]
+        prepared_tags = slim_tags[-5:]
 
     # If still no slim versions found, return empty list
     if not slim_tags:
         return []
 
-    # Use the last 5 slim tags
-    prepared_tags = slim_tags[-5:]
-    print(
-        f"Found {len(prepared_tags)} slim versions for {repository_name}: {prepared_tags}"
-    )
-    return prepared_tags
+    return [recommendation(repository_name, prepared_tags)]
