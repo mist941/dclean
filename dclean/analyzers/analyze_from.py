@@ -1,81 +1,5 @@
-import requests
 from typing import Dict, Any, List
-
-
-def getRepositoryTags(repository: str, version: str = None) -> List[str]:
-    """
-    Fetch available tags for a Docker Hub repository,
-    optionally filtering by version.
-    
-    Args:
-        repository: Repository name (e.g. 'ubuntu', 'nginx', 'username/repo')
-        version: Optional version to filter by (e.g. '1.21', '3.9')
-        
-    Returns:
-        List of available tags for the repository,
-        filtered by version if specified
-    """
-    # Handle official repositories (no slash)
-    if "/" not in repository:
-        api_url = f"https://hub.docker.com/v2/repositories/library/{repository}/tags"
-    else:
-        api_url = f"https://hub.docker.com/v2/repositories/{repository}/tags"
-
-    tags = []
-    page = 1
-
-    try:
-        while True:
-            response = requests.get(f"{api_url}?page={page}&page_size=100")
-
-            # Break if we get an error response
-            if response.status_code != 200:
-                break
-
-            data = response.json()
-            results = data.get('results', [])
-
-            # Break if no more results
-            if not results:
-                break
-
-            # Add tags to our list
-            tags.extend([item['name'] for item in results])
-
-            # Check if there are more pages
-            if not data.get('next'):
-                break
-
-            page += 1
-
-        # If version is specified, filter tags to match that version
-        if version and version != "latest":
-            # Extract major version (e.g., from "3.9.2" get "3.9")
-            if "." in version:
-                major_version = ".".join(version.split(".")[:2])
-            else:
-                major_version = version
-
-            # Filter tags that contain the version
-            filtered_tags = []
-            for tag in tags:
-                # Direct match
-                if tag.startswith(
-                        version
-                ) or f"-{version}" in tag or f"_{version}" in tag:
-                    filtered_tags.append(tag)
-                # Major version match
-                elif major_version != version and (
-                        tag.startswith(major_version) or f"-{major_version}"
-                        in tag or f"_{major_version}" in tag):
-                    filtered_tags.append(tag)
-
-            return filtered_tags
-
-        return tags
-    except Exception as e:
-        print(f"Error fetching tags for {repository}: {str(e)}")
-        return []
+from dclean.api.get_repository_tags import get_repository_tags
 
 
 def getRepositoryName(instruction_value: str) -> str:
@@ -162,7 +86,7 @@ def analyze_from(instruction: Dict[str, Any]) -> List[str]:
     current_version = getRepositoryVersion(instruction_value)
 
     # Get tags that match the current version
-    tags = getRepositoryTags(repository_name, current_version)
+    tags = get_repository_tags(repository_name, current_version)
 
     # Filter for slim versions
     slim_tags = [tag for tag in tags if "slim" in tag.lower()]
@@ -172,7 +96,7 @@ def analyze_from(instruction: Dict[str, Any]) -> List[str]:
         print(
             f"No slim versions found for {repository_name}:{current_version}, checking all tags"
         )
-        all_tags = getRepositoryTags(repository_name)
+        all_tags = get_repository_tags(repository_name)
         slim_tags = [tag for tag in all_tags if "slim" in tag.lower()]
 
     # If still no slim versions found, return empty list
