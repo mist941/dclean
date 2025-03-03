@@ -58,5 +58,5 @@ def analyze_dockerfile(dockerfile_path: str) -> List[Dict[str, List[str]]]:
                 'analysis':
                 f"No analyzer available for {instruction_type}"
             })
-
+    print(results)
     return results

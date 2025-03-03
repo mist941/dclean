@@ -1,6 +1,6 @@
 from typing import Dict, Any, List
 from dclean.api.get_repository_tags import get_repository_tags
-from dclean.utils import get_recommendation
+from dclean.utils.get_recommendation import get_recommendation_from
 
 
 def get_repository_name(instruction_value: str) -> str:
@@ -88,7 +88,6 @@ def analyze_from(instruction: Dict[str, Any]) -> List[str]:
     if "slim" in instruction_value.lower():
         return []
 
-    recommendation = get_recommendation("FROM")
     repository_name = get_repository_name(instruction_value)
     current_version = get_repository_version(instruction_value)
 
@@ -110,4 +109,4 @@ def analyze_from(instruction: Dict[str, Any]) -> List[str]:
     if not slim_tags:
         return []
 
-    return [recommendation(repository_name, prepared_tags)]
+    return [get_recommendation_from(repository_name, prepared_tags)]
