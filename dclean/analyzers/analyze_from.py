@@ -4,6 +4,15 @@ from dclean.utils.get_recommendation import get_recommendation_from
 
 
 def get_repository_name(instruction_value: str) -> str:
+    """
+    Extract the repository name from a Docker image reference.
+    
+    Args:
+        instruction_value: Docker image reference (e.g. 'nginx:1.21', 'ubuntu@sha256:123...')
+        
+    Returns:
+        The repository name without registry domain, tag, or digest
+    """
     # First process digests if present
     if "@" in instruction_value:
         instruction_value = instruction_value.split("@")[0]
@@ -79,6 +88,15 @@ def get_repository_version(instruction_value: str) -> str:
 
 
 def analyze_from(instruction: Dict[str, Any]) -> List[str]:
+    """
+    Analyze FROM instruction and recommend slim versions if available.
+    
+    Args:
+        instruction: Dictionary containing the FROM instruction details
+        
+    Returns:
+        List of recommendations for using slim versions
+    """
     if not instruction or "value" not in instruction:
         return []
 
@@ -91,22 +109,25 @@ def analyze_from(instruction: Dict[str, Any]) -> List[str]:
     repository_name = get_repository_name(instruction_value)
     current_version = get_repository_version(instruction_value)
 
-    # Get tags that match the current version
-    tags = get_repository_tags(repository_name, current_version)
+    try:
+        # Get tags that match the current version
+        version_tags = get_repository_tags(repository_name, current_version)
 
-    # Filter for slim versions
-    slim_tags = [tag for tag in tags if "slim" in tag.lower()]
+        # Filter for slim versions
+        slim_tags = [tag for tag in version_tags if "slim" in tag.lower()]
 
-    prepared_tags = slim_tags[-5:]
+        # If no slim versions found for specific version, try all tags
+        if not slim_tags:
+            all_tags = get_repository_tags(repository_name)
+            slim_tags = [tag for tag in all_tags if "slim" in tag.lower()]
 
-    # If no slim versions found for specific version, try all tags
-    if not slim_tags:
-        all_tags = get_repository_tags(repository_name)
-        slim_tags = [tag for tag in all_tags if "slim" in tag.lower()]
-        prepared_tags = slim_tags[-5:]
+        # Take the 5 most recent slim tags
+        recent_slim_tags = slim_tags[-5:] if slim_tags else []
 
-    # If still no slim versions found, return empty list
-    if not slim_tags:
-        return []
+        # If slim versions found, return recommendation
+        if recent_slim_tags:
+            return [get_recommendation_from(repository_name, recent_slim_tags)]
+    except Exception:
+        pass
 
-    return [get_recommendation_from(repository_name, prepared_tags)]
+    return []
