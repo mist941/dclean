@@ -13,7 +13,7 @@ def get_repository_tags(repository: str, version: str = None) -> List[str]:
         
     Returns:
         List of available tags for the repository,
-        filtered by version if specified, limited to first 5 tags
+        filtered by version if specified
     """
     # Handle official repositories (no slash)
     if "/" not in repository:
@@ -21,15 +21,18 @@ def get_repository_tags(repository: str, version: str = None) -> List[str]:
     else:
         api_url = f"https://hub.docker.com/v2/repositories/{repository}/tags"
 
+    tags = []
+
     try:
-        # Get only first page with 5 results
-        response = requests.get(f"{api_url}?page=1&page_size=50")
+        response = requests.get(f"{api_url}?page=1&page_size=100")
 
         data = response.json()
         results = data.get('results', [])
 
-        # Extract tags from results
-        tags = [item['name'] for item in results]
+        # Add tags to our list
+        tags.extend([item['name'] for item in results])
+
+        # Check if there are more pages
 
         # If version is specified, filter tags to match that version
         if version and version != "latest":
@@ -53,9 +56,9 @@ def get_repository_tags(repository: str, version: str = None) -> List[str]:
                         in tag or f"_{major_version}" in tag):
                     filtered_tags.append(tag)
 
-            return filtered_tags[:5]  # Limit to 5 tags
+            return filtered_tags
 
-        return tags[:5]  # Limit to 5 tags
+        return tags
     except Exception as e:
         print(f"Error fetching tags for {repository}: {str(e)}")
         return []

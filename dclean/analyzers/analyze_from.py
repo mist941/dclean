@@ -2,7 +2,7 @@ from typing import Dict, Any, List
 from dclean.api.get_repository_tags import get_repository_tags
 
 
-def getRepositoryName(instruction_value: str) -> str:
+def get_repository_name(instruction_value: str) -> str:
     # First process digests if present
     if "@" in instruction_value:
         instruction_value = instruction_value.split("@")[0]
@@ -35,7 +35,7 @@ def getRepositoryName(instruction_value: str) -> str:
     return repo_part
 
 
-def getRepositoryVersion(instruction_value: str) -> str:
+def get_repository_version(instruction_value: str) -> str:
     """
     Extract the version/tag from a Docker image reference.
     
@@ -82,8 +82,13 @@ def analyze_from(instruction: Dict[str, Any]) -> List[str]:
         return []
 
     instruction_value = instruction["value"]
-    repository_name = getRepositoryName(instruction_value)
-    current_version = getRepositoryVersion(instruction_value)
+
+    # Check if the image already uses a slim version
+    if "slim" in instruction_value.lower():
+        return []
+
+    repository_name = get_repository_name(instruction_value)
+    current_version = get_repository_version(instruction_value)
 
     # Get tags that match the current version
     tags = get_repository_tags(repository_name, current_version)
@@ -101,11 +106,6 @@ def analyze_from(instruction: Dict[str, Any]) -> List[str]:
 
     # If still no slim versions found, return empty list
     if not slim_tags:
-        print(f"No slim versions found for {repository_name}")
         return []
 
-    # Sort slim tags to prioritize newer versions
-    slim_tags.sort(reverse=True)
-
-    print(f"Found slim versions for {repository_name}: {slim_tags}")
     return slim_tags
