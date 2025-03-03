@@ -98,9 +98,6 @@ def analyze_from(instruction: Dict[str, Any]) -> List[str]:
 
     # If no slim versions found for specific version, try all tags
     if not slim_tags:
-        print(
-            f"No slim versions found for {repository_name}:{current_version}, checking all tags"
-        )
         all_tags = get_repository_tags(repository_name)
         slim_tags = [tag for tag in all_tags if "slim" in tag.lower()]
 
@@ -108,4 +105,9 @@ def analyze_from(instruction: Dict[str, Any]) -> List[str]:
     if not slim_tags:
         return []
 
-    return slim_tags
+    # Use the last 5 slim tags
+    prepared_tags = slim_tags[-5:]
+    print(
+        f"Found {len(prepared_tags)} slim versions for {repository_name}: {prepared_tags}"
+    )
+    return prepared_tags
