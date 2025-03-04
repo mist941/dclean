@@ -87,7 +87,7 @@ def get_repository_version(instruction_value: str) -> str:
     return "latest"
 
 
-def analyze_from(instruction: Dict[str, Any]) -> List[str]:
+def analyze_from(instruction: Dict[str, Any] = None) -> List[str]:
     """
     Analyze FROM instruction and recommend slim versions if available.
     
