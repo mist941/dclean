@@ -1,17 +1,8 @@
 from pathlib import Path
-from typing import Dict, Callable, List, Any
+from typing import Dict, List
 from dockerfile_parse import DockerfileParser
 from dclean.analyzers.analyze_run import analyze_run
 from dclean.analyzers.analyze_from import analyze_from
-
-# Type definition for analyzer functions
-AnalyzerFunc = Callable[[Dict[str, Any]], List[str]]
-
-# Dictionary mapping Dockerfile instructions to their analyzer functions
-analyzers_dict: Dict[str, AnalyzerFunc] = {
-    "FROM": analyze_from,
-    "RUN": analyze_run,
-}
 
 
 def analyze_dockerfile(dockerfile_path: str) -> List[Dict[str, List[str]]]:
