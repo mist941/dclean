@@ -3,6 +3,7 @@ from typing import Dict, Callable, List, Any
 from dockerfile_parse import DockerfileParser
 from dclean.analyzers.analyze_run import analyze_run
 from dclean.analyzers.analyze_from import analyze_from
+from dclean.utils.is_valid_instruction import is_valid_instruction
 from dclean.utils.types import Instruction
 
 # Type definition for analyzer functions
@@ -56,7 +57,8 @@ def analyze_dockerfile(dockerfile_path: str) -> List[Dict[str, List[str]]]:
             continue
 
         # Get the appropriate analyzer for this instruction
-        analyzer = analyzers_dict.get(instruction_type)
+        if is_valid_instruction(instruction_type):
+            analyzer = analyzers_dict.get(Instruction(instruction_type))
 
         if analyzer is not None:
             # Run the analyzer and collect results
@@ -73,10 +75,8 @@ def analyze_dockerfile(dockerfile_path: str) -> List[Dict[str, List[str]]]:
         else:
             # Log unsupported instructions
             results.append({
-                'instruction':
-                instruction_type,
-                'analysis':
-                f"No analyzer available for {instruction_type}"
+                'instruction': instruction_type,
+                'analysis': f"No analyzer for {instruction_type}"
             })
     print(results)
     return results
