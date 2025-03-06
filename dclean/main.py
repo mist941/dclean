@@ -16,23 +16,17 @@ def cli():
               '--output',
               type=click.Path(writable=True),
               help="File to save the analysis results.")
-@click.option('-v',
-              '--verbose',
-              is_flag=True,
-              help="Turn on the detailed output.")
 @click.argument('dockerfile', type=click.Path(exists=True))
-def analyze(dockerfile: str, output: Optional[str], verbose: bool):
+def analyze(dockerfile: str, output: Optional[str]):
     """
     Analyze the given Dockerfile for issues and optimization opportunities.
     """
     try:
         click.echo(f"Analyzing {dockerfile}...")
-        analyze_dockerfile(dockerfile)
-        if verbose:
-            click.echo("Analysis in detailed mode has been launched...")
-
-        # TODO: Implement actual Dockerfile analysis logic here
-        result = "Analysis results: Dockerfile is fine"
+        result = "Analysis results: Dockerfile has issues"
+        recommendations = analyze_dockerfile(dockerfile)
+        if recommendations:
+            result = recommendations
 
         if output:
             os.makedirs(os.path.dirname(output) or '.', exist_ok=True)

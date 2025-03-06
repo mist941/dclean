@@ -3,16 +3,14 @@ from typing import Dict, Callable, List, Any
 from dockerfile_parse import DockerfileParser
 from dclean.analyzers.analyze_run import analyze_run
 from dclean.analyzers.analyze_from import analyze_from
-from dclean.utils.is_valid_instruction import is_valid_instruction
-from dclean.utils.types import Instruction
 
 # Type definition for analyzer functions
 AnalyzerFunc = Callable[[Dict[str, Any]], List[str]]
 
 # Dictionary mapping Dockerfile instructions to their analyzer functions
-analyzers_dict: Dict[Instruction, AnalyzerFunc] = {
-    Instruction.FROM: analyze_from,
-    Instruction.RUN: analyze_run,
+analyzers_dict: Dict[str, AnalyzerFunc] = {
+    "FROM": analyze_from,
+    "RUN": analyze_run,
 }
 
 
@@ -40,43 +38,17 @@ def analyze_dockerfile(dockerfile_path: str) -> List[Dict[str, List[str]]]:
 
     results = []
 
-    run_instructions = []
+    for instruction in parsed_file.structure:
+        if instruction['instruction'] == "FROM":
+            recommendation = analyze_from(instruction)
+            if recommendation:
+                results.append({
+                    'instruction': "FROM",
+                    'analysis': recommendation
+                })
 
-    # Analyze each instruction
-    for instruction, next_instruction in zip(parsed_file.structure,
-                                             parsed_file.structure[1:]):
-        instruction_type = instruction['instruction']
+    for recommendation in analyze_run(parsed_file.structure):
+        if recommendation:
+            results.append({'instruction': "RUN", 'analysis': recommendation})
 
-        if instruction_type == Instruction.RUN:
-            run_instructions.append(instruction)
-        else:
-            run_instructions = []
-
-        if instruction_type == Instruction.RUN and next_instruction[
-                'instruction'] == Instruction.RUN:
-            continue
-
-        # Get the appropriate analyzer for this instruction
-        if is_valid_instruction(instruction_type):
-            analyzer = analyzers_dict.get(Instruction(instruction_type))
-
-        if analyzer is not None:
-            # Run the analyzer and collect results
-            prepared_instruction = instruction
-
-            if instruction_type == Instruction.RUN:
-                prepared_instruction = run_instructions
-
-            result = analyzer(prepared_instruction)
-            results.append({
-                'instruction': instruction_type,
-                'analysis': result
-            })
-        else:
-            # Log unsupported instructions
-            results.append({
-                'instruction': instruction_type,
-                'analysis': f"No analyzer for {instruction_type}"
-            })
-    print(results)
     return results
