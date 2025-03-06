@@ -102,8 +102,9 @@ def analyze_from(instruction: Dict[str, Any] = None) -> List[str]:
 
     instruction_value = instruction["value"]
 
-    # Check if the image already uses a slim version
-    if "slim" in instruction_value.lower():
+    # Check if the image already uses a light version
+    if "slim" in instruction_value.lower(
+    ) or "alpine" in instruction_value.lower():
         return []
 
     repository_name = get_repository_name(instruction_value)
@@ -114,19 +115,27 @@ def analyze_from(instruction: Dict[str, Any] = None) -> List[str]:
         version_tags = get_repository_tags(repository_name, current_version)
 
         # Filter for slim versions
-        slim_tags = [tag for tag in version_tags if "slim" in tag.lower()]
+        light_tags = [
+            tag for tag in version_tags
+            if "slim" in tag.lower() or "alpine" in tag.lower()
+        ]
 
         # If no slim versions found for specific version, try all tags
-        if not slim_tags:
+        if not light_tags:
             all_tags = get_repository_tags(repository_name)
-            slim_tags = [tag for tag in all_tags if "slim" in tag.lower()]
+            light_tags = [
+                tag for tag in all_tags
+                if "slim" in tag.lower() or "alpine" in tag.lower()
+            ]
 
         # Take the 5 most recent slim tags
-        recent_slim_tags = slim_tags[-5:] if slim_tags else []
+        recent_light_tags = light_tags[-10:] if light_tags else []
 
         # If slim versions found, return recommendation
-        if recent_slim_tags:
-            return [get_recommendation_from(repository_name, recent_slim_tags)]
+        if recent_light_tags:
+            return [
+                get_recommendation_from(repository_name, recent_light_tags)
+            ]
     except Exception:
         pass
 

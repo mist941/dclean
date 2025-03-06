@@ -1,12 +1,13 @@
 from typing import List
 
 
-def get_recommendation_from(repository_name: str, slim_list: List[str]) -> str:
+def get_recommendation_from(repository_name: str,
+                            light_list: List[str]) -> str:
     """
-    Get a recommendation for a slim version of a Docker image.
+    Get a recommendation for a lightweight version of a Docker image.
     """
-    return (f"Try to use a slim version of the {repository_name} like "
-            f"'{', '.join(slim_list)}' and other images")
+    return (f"Try to use a lightweight version of the {repository_name} like "
+            f"'{', '.join(light_list)}' and other images")
 
 
 def get_recommendation_run() -> str:
