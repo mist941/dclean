@@ -3,14 +3,15 @@ from typing import Dict, Callable, List, Any
 from dockerfile_parse import DockerfileParser
 from dclean.analyzers.analyze_run import analyze_run
 from dclean.analyzers.analyze_from import analyze_from
+from dclean.utils.types import Instruction
 
 # Type definition for analyzer functions
 AnalyzerFunc = Callable[[Dict[str, Any]], List[str]]
 
 # Dictionary mapping Dockerfile instructions to their analyzer functions
-analyzers_dict: Dict[str, AnalyzerFunc] = {
-    "FROM": analyze_from,
-    "RUN": analyze_run,
+analyzers_dict: Dict[Instruction, AnalyzerFunc] = {
+    Instruction.FROM: analyze_from,
+    Instruction.RUN: analyze_run,
 }
 
 
@@ -45,13 +46,13 @@ def analyze_dockerfile(dockerfile_path: str) -> List[Dict[str, List[str]]]:
                                              parsed_file.structure[1:]):
         instruction_type = instruction['instruction']
 
-        if instruction_type == 'RUN':
+        if instruction_type == Instruction.RUN:
             run_instructions.append(instruction)
         else:
             run_instructions = []
 
-        if instruction_type == 'RUN' and next_instruction[
-                'instruction'] == 'RUN':
+        if instruction_type == Instruction.RUN and next_instruction[
+                'instruction'] == Instruction.RUN:
             continue
 
         # Get the appropriate analyzer for this instruction
@@ -61,7 +62,7 @@ def analyze_dockerfile(dockerfile_path: str) -> List[Dict[str, List[str]]]:
             # Run the analyzer and collect results
             prepared_instruction = instruction
 
-            if instruction_type == 'RUN':
+            if instruction_type == Instruction.RUN:
                 prepared_instruction = run_instructions
 
             result = analyzer(prepared_instruction)
@@ -77,9 +78,5 @@ def analyze_dockerfile(dockerfile_path: str) -> List[Dict[str, List[str]]]:
                 'analysis':
                 f"No analyzer available for {instruction_type}"
             })
-    # print(results)
+    print(results)
     return results
-
-
-if __name__ == "__main__":
-    analyze_dockerfile("dockerfiles/Dockerfile")

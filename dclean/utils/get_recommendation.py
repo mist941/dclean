@@ -2,7 +2,8 @@ from typing import Dict, List
 
 recommendation_dict: Dict[str, str] = {
     "FROM":
-    "Try to use a slim version of the {repository_name} like '{slim_list}' and more",
+    "Try to use a slim version of the {repository_name} like '{slim_list}' and other images",
+    "RUN": ""
 }
 
 
