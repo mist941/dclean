@@ -1,6 +1,7 @@
 from pathlib import Path
 from typing import Dict, List
 from dockerfile_parse import DockerfileParser
+from dclean.analyzers.analyze_cmd_entrypoint import analyze_cmd_entrypoint
 from dclean.analyzers.analyze_run import analyze_run
 from dclean.analyzers.analyze_from import analyze_from
 from dclean.analyzers.analyze_add import analyze_add
@@ -43,6 +44,14 @@ def analyze_dockerfile(dockerfile_path: str) -> List[Dict[str, str]]:
             if recommendation:
                 results.append({
                     'instruction': "ADD",
+                    'analysis': recommendation
+                })
+        elif instruction['instruction'] == "CMD" or instruction[
+                'instruction'] == "ENTRYPOINT":
+            recommendation = analyze_cmd_entrypoint(instruction)
+            if recommendation:
+                results.append({
+                    'instruction': instruction['instruction'],
                     'analysis': recommendation
                 })
 

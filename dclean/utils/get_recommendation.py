@@ -46,3 +46,12 @@ def get_recommendation_add_for_archives(line: int) -> str:
     """
     return (f"Line {line}: Consider using COPY instead of ADD when "
             f"retrieving archives if you do not need to extract them.")
+
+
+def get_recommendation_cmd_entrypoint(line: int, instruction: str) -> str:
+    """
+    Get a recommendation for a CMD entrypoint syntax.
+    """
+    return (
+        f"Line {line}: Use `[]` to specify an array of commands in the "
+        f"{instruction}. For example: `CMD [\"echo\", \"Hello, World!\"]`.")

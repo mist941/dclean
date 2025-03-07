@@ -1,5 +1,5 @@
 import re
-from typing import Dict, Any, Optional
+from typing import Dict, Any
 from dclean.utils.get_recommendation import (
     get_recommendation_add_for_archives,
     get_recommendation_add_for_data_retrieving)
@@ -8,7 +8,7 @@ URL_REGEX = r"^https?:\/\/(www\.)?[\da-z\.-]+\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$"
 ARCHIVE_EXTENSIONS = ['.tar', '.gz', '.zip', '.xz', '.bz2', '.tgz']
 
 
-def analyze_add(instruction: Optional[Dict[str, Any]] = None) -> str:
+def analyze_add(instruction: Dict[str, Any] = None) -> str:
     """
     Analyze ADD instruction to check if it can be replaced with COPY or RUN.
     
