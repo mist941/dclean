@@ -29,3 +29,20 @@ def get_recommendation_cache_clean(clean_commands: List[str],
     """
     return (f"Line {line}: Consider adding cache cleaning commands like "
             f"'{' && '.join(clean_commands)}' to reduce image size.")
+
+
+def get_recommendation_add_for_data_retrieving(line: int) -> str:
+    """
+    Get a recommendation for an ADD command that retrieves data from the internet.
+    """
+    return (
+        f"Line {line}: Consider using RUN with "
+        f"curl or wget instead of ADD when retrieving data from the Internet.")
+
+
+def get_recommendation_add_for_archives(line: int) -> str:
+    """
+    Get a recommendation for an ADD command that retrieves archives.
+    """
+    return (f"Line {line}: Consider using COPY instead of ADD when "
+            f"retrieving archives if you do not need to extract them.")
