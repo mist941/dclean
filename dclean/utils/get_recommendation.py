@@ -55,3 +55,13 @@ def get_recommendation_cmd_entrypoint(line: int, instruction: str) -> str:
     return (
         f"Line {line}: Use `[]` to specify an array of commands in the "
         f"{instruction}. For example: `CMD [\"echo\", \"Hello, World!\"]`.")
+
+
+def get_recommendation_apt_install_no_recommends(line: int,
+                                                 apt_cmd: str) -> str:
+    """
+    Get a recommendation for an apt-get install command without --no-install-recommends.
+    """
+    return (f"Line {line}: Consider adding '--no-install-recommends' to "
+            f"{apt_cmd} to reduce image size "
+            f"by not installing recommended but non-essential packages.")

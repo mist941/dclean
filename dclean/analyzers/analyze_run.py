@@ -1,5 +1,7 @@
 from typing import Dict, Any, List, Tuple
-from dclean.utils.get_recommendation import get_recommendation_cache_clean, get_recommendation_run
+from dclean.utils.get_recommendation import (
+    get_recommendation_apt_install_no_recommends,
+    get_recommendation_cache_clean, get_recommendation_run)
 
 # Commands that are generally safe to merge in Dockerfile RUN instructions
 SAFE_TO_MERGE = [
@@ -28,6 +30,9 @@ CRITICAL_SEPARATORS = [
 # Commands that can be used to clean the cache
 CACHE_CLEAN_COMMANDS = ["apt-get clean", "rm -rf /var/lib/apt/lists/*"]
 
+# APT commands that should use --no-install-recommends flag
+APT_INSTALL_COMMANDS = ["apt-get install", "apt install"]
+
 
 def analyze_run(instructions: List[Dict[str, Any]]) -> List[str]:
     """
@@ -54,6 +59,8 @@ def analyze_run(instructions: List[Dict[str, Any]]) -> List[str]:
 
         if instr_type == "RUN":
             run_commands.append((value, line_number))
+
+            # Check for apt-get install without cache cleaning
             if "apt-get install" in value:
                 has_cache_clean = any(clean_cmd in value
                                       for clean_cmd in CACHE_CLEAN_COMMANDS)
@@ -61,6 +68,13 @@ def analyze_run(instructions: List[Dict[str, Any]]) -> List[str]:
                     recommendations.append(
                         get_recommendation_cache_clean(CACHE_CLEAN_COMMANDS,
                                                        line_number + 1))
+
+            # Check for apt install commands without --no-install-recommends
+            for apt_cmd in APT_INSTALL_COMMANDS:
+                if apt_cmd in value and "--no-install-recommends" not in value:
+                    recommendations.append(
+                        get_recommendation_apt_install_no_recommends(
+                            line_number + 1, apt_cmd))
 
     # Find groups of consecutive RUN commands that can be merged
     if len(run_commands) >= 2:
