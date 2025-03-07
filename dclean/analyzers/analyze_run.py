@@ -1,4 +1,5 @@
 from typing import Dict, Any, List, Tuple
+from dclean.utils.get_recommendation import get_recommendation_run
 
 # Commands that are generally safe to merge in Dockerfile RUN instructions
 SAFE_TO_MERGE = [
@@ -94,10 +95,7 @@ def analyze_run(instructions: List[Dict[str, Any]]) -> List[str]:
             if len(group) >= 2:
                 cmds = [cmd for cmd, _ in group]
                 lines = [line for _, line in group]
-                recommendation = f"Can merge RUN instructions at lines {', '.join(map(str, lines))}"
-                for cmd in cmds:
-                    recommendation += f"  {cmd}"
-                recommendation += "Optimization: use `&&` to combine these commands"
+                recommendation = get_recommendation_run(lines, cmds)
                 recommendations.append(recommendation)
 
     return recommendations

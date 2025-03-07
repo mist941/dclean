@@ -10,8 +10,12 @@ def get_recommendation_from(repository_name: str,
             f"'{', '.join(light_list)}' and other images")
 
 
-def get_recommendation_run() -> str:
+def get_recommendation_run(lines: List[int], cmds: List[str]) -> str:
     """
     Get a recommendation for a run command.
     """
-    return "Combine RUN commands to reduce the number of layers"
+    recommendation = f"Can merge RUN instructions at lines {', '.join(map(str, lines))}"
+    for cmd in cmds:
+        recommendation += f"  {cmd},"
+    recommendation += "\nOptimization: use `&&` and `\\` to combine these commands"
+    return recommendation
