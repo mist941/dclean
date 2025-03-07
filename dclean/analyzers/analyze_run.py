@@ -61,7 +61,7 @@ def analyze_run(instructions: List[Dict[str, Any]]) -> List[str]:
             run_commands.append((value, line_number))
 
             # Check for apt-get install without cache cleaning
-            if "apt-get install" in value:
+            if any(apt_cmd in value for apt_cmd in APT_INSTALL_COMMANDS):
                 has_cache_clean = any(clean_cmd in value
                                       for clean_cmd in CACHE_CLEAN_COMMANDS)
                 if not has_cache_clean:
