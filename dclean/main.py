@@ -23,10 +23,18 @@ def analyze(dockerfile: str, output: Optional[str]):
     """
     try:
         click.echo(f"Analyzing {dockerfile}...")
-        result = "Analysis results: Dockerfile has issues"
         recommendations = analyze_dockerfile(dockerfile)
-        if recommendations:
-            result = recommendations
+
+        if not recommendations:
+            result = "Analysis results: Dockerfile has no issues"
+        else:
+            # Format the recommendations in a more readable way
+            result = "Analysis Results:\n" + "=" * 50 + "\n\n"
+            for i, recommendation in enumerate(recommendations, 1):
+                result += f"Issue #{i}:\n"
+                result += f"    Instruction: {recommendation['instruction']}\n"
+                result += f"    {recommendation['analysis']}\n\n"
+            result += "=" * 50
 
         if output:
             os.makedirs(os.path.dirname(output) or '.', exist_ok=True)

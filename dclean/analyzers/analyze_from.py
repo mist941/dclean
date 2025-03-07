@@ -1,4 +1,4 @@
-from typing import Dict, Any, List
+from typing import Dict, Any
 from dclean.api.get_repository_tags import get_repository_tags
 from dclean.utils.get_recommendation import get_recommendation_from
 
@@ -87,7 +87,7 @@ def get_repository_version(instruction_value: str) -> str:
     return "latest"
 
 
-def analyze_from(instruction: Dict[str, Any] = None) -> List[str]:
+def analyze_from(instruction: Dict[str, Any] = None) -> str:
     """
     Analyze FROM instruction and recommend slim versions if available.
     
@@ -98,7 +98,7 @@ def analyze_from(instruction: Dict[str, Any] = None) -> List[str]:
         List of recommendations for using slim versions
     """
     if not instruction or "value" not in instruction:
-        return []
+        return ""
 
     instruction_value = instruction.get("value", "")
     instruction_line = instruction.get("startline", -1) + 1
@@ -106,39 +106,34 @@ def analyze_from(instruction: Dict[str, Any] = None) -> List[str]:
     # Check if the image already uses a light version
     if "slim" in instruction_value.lower(
     ) or "alpine" in instruction_value.lower():
-        return []
+        return ""
 
     repository_name = get_repository_name(instruction_value)
     current_version = get_repository_version(instruction_value)
 
-    try:
-        # Get tags that match the current version
-        version_tags = get_repository_tags(repository_name, current_version)
+    # Get tags that match the current version
+    version_tags = get_repository_tags(repository_name, current_version)
 
-        # Filter for slim versions
+    # Filter for slim versions
+    light_tags = [
+        tag for tag in version_tags
+        if "slim" in tag.lower() or "alpine" in tag.lower()
+    ]
+
+    # If no slim versions found for specific version, try all tags
+    if not light_tags:
+        all_tags = get_repository_tags(repository_name)
         light_tags = [
-            tag for tag in version_tags
+            tag for tag in all_tags
             if "slim" in tag.lower() or "alpine" in tag.lower()
         ]
 
-        # If no slim versions found for specific version, try all tags
-        if not light_tags:
-            all_tags = get_repository_tags(repository_name)
-            light_tags = [
-                tag for tag in all_tags
-                if "slim" in tag.lower() or "alpine" in tag.lower()
-            ]
+    # Take the 5 most recent slim tags
+    recent_light_tags = light_tags[-10:] if light_tags else []
 
-        # Take the 5 most recent slim tags
-        recent_light_tags = light_tags[-10:] if light_tags else []
+    # If slim versions found, return recommendation
+    if recent_light_tags:
+        return get_recommendation_from(repository_name, recent_light_tags,
+                                       instruction_line)
 
-        # If slim versions found, return recommendation
-        if recent_light_tags:
-            return [
-                get_recommendation_from(repository_name, recent_light_tags,
-                                        instruction_line)
-            ]
-    except Exception:
-        pass
-
-    return []
+    return ""

@@ -8,17 +8,17 @@ def get_recommendation_from(repository_name: str, light_list: List[str],
     """
     return (
         f"Line {line}: Try to use a lightweight version of the "
-        f"{repository_name} like '{', '.join(light_list)}' and other images")
+        f"{repository_name} like '{', '.join(light_list)}' and other images.")
 
 
 def get_recommendation_run(lines: List[int], cmds: List[str]) -> str:
     """
     Get a recommendation for a run command.
     """
-    recommendation = f"Line {', '.join(map(str, lines))}: Can merge RUN instructions"
+    recommendation = f"Line {', '.join(map(str, lines))}: You can merge RUN instructions"
     for cmd in cmds:
-        recommendation += f"  {cmd},"
-    recommendation += "\nUse `&&` and `\\` to combine these commands"
+        recommendation += f" {cmd},"
+    recommendation += "\nUse `&&` and `\\` to combine these commands."
     return recommendation
 
 

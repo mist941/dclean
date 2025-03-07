@@ -43,7 +43,3 @@ def analyze_dockerfile(dockerfile_path: str) -> List[Dict[str, List[str]]]:
             results.append({'instruction': "RUN", 'analysis': recommendation})
 
     return results
-
-
-if __name__ == "__main__":
-    analyze_dockerfile("dockerfiles/Dockerfile")
