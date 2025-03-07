@@ -3,6 +3,7 @@ from typing import Dict, List
 from dockerfile_parse import DockerfileParser
 from dclean.analyzers.analyze_run import analyze_run
 from dclean.analyzers.analyze_from import analyze_from
+from dclean.analyzers.analyze_add import analyze_add
 
 
 def analyze_dockerfile(dockerfile_path: str) -> List[Dict[str, str]]:
@@ -35,6 +36,13 @@ def analyze_dockerfile(dockerfile_path: str) -> List[Dict[str, str]]:
             if recommendation:
                 results.append({
                     'instruction': "FROM",
+                    'analysis': recommendation
+                })
+        elif instruction['instruction'] == "ADD":
+            recommendation = analyze_add(instruction)
+            if recommendation:
+                results.append({
+                    'instruction': "ADD",
                     'analysis': recommendation
                 })
 

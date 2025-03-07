@@ -95,7 +95,7 @@ def analyze_from(instruction: Dict[str, Any] = None) -> str:
         instruction: Dictionary containing the FROM instruction details
         
     Returns:
-        List of recommendations for using slim versions
+        Recommendations for using slim versions
     """
     if not instruction or "value" not in instruction:
         return ""
