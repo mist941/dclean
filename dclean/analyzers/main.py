@@ -5,7 +5,7 @@ from dclean.analyzers.analyze_run import analyze_run
 from dclean.analyzers.analyze_from import analyze_from
 
 
-def analyze_dockerfile(dockerfile_path: str) -> List[Dict[str, List[str]]]:
+def analyze_dockerfile(dockerfile_path: str) -> List[Dict[str, str]]:
     """
     Analyze a Dockerfile and return the analysis results.
     

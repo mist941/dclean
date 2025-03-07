@@ -3,6 +3,8 @@ import os
 import sys
 from typing import Optional
 from dclean.analyzers.main import analyze_dockerfile
+from dclean.utils.get_analysis_result import get_analysis_result
+from dclean.utils.get_colored_analysis_result import get_colored_analysis_result
 
 
 @click.group()
@@ -25,27 +27,21 @@ def analyze(dockerfile: str, output: Optional[str]):
         click.echo(f"Analyzing {dockerfile}...")
         recommendations = analyze_dockerfile(dockerfile)
 
-        if not recommendations:
-            result = "Analysis results: Dockerfile has no issues"
-        else:
-            # Format the recommendations in a more readable way
-            result = "Analysis Results:\n" + "=" * 50 + "\n\n"
-            for i, recommendation in enumerate(recommendations, 1):
-                result += f"Issue #{i}:\n"
-                result += f"    Instruction: {recommendation['instruction']}\n"
-                result += f"    {recommendation['analysis']}\n\n"
-            result += "=" * 50
-
         if output:
             os.makedirs(os.path.dirname(output) or '.', exist_ok=True)
             with open(output, 'w') as f:
-                f.write(result)
+                f.write(get_analysis_result(
+                    recommendations))  # Write plain text to file
             click.echo(f"The results are saved in {output}")
         else:
-            click.echo(result)
+            click.echo(get_colored_analysis_result(
+                recommendations))  # Display colored output in terminal
 
     except Exception as e:
-        click.echo(f"Error during analysis: {str(e)}", err=True)
+        click.echo(click.style(f"Error during analysis: {str(e)}",
+                               fg="bright_red",
+                               bold=True),
+                   err=True)
         sys.exit(1)
 
 
