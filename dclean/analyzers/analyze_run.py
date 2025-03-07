@@ -1,5 +1,5 @@
 from typing import Dict, Any, List, Tuple
-from dclean.utils.get_recommendation import get_recommendation_run
+from dclean.utils.get_recommendation import get_recommendation_cache_clean, get_recommendation_run
 
 # Commands that are generally safe to merge in Dockerfile RUN instructions
 SAFE_TO_MERGE = [
@@ -24,6 +24,9 @@ CRITICAL_SEPARATORS = [
     "ENV", "ARG", "WORKDIR", "USER", "COPY", "ADD", "ONBUILD", "EXPOSE",
     "VOLUME", "LABEL", "ENTRYPOINT", "CMD"
 ]
+
+# Commands that can be used to clean the cache
+CACHE_CLEAN_COMMANDS = ["apt-get clean", "rm -rf /var/lib/apt/lists/*"]
 
 
 def analyze_run(instructions: List[Dict[str, Any]]) -> List[str]:
@@ -51,6 +54,13 @@ def analyze_run(instructions: List[Dict[str, Any]]) -> List[str]:
 
         if instr_type == "RUN":
             run_commands.append((value, line_number))
+            if "apt-get install" in value:
+                has_cache_clean = any(clean_cmd in value
+                                      for clean_cmd in CACHE_CLEAN_COMMANDS)
+                if not has_cache_clean:
+                    recommendations.append(
+                        get_recommendation_cache_clean(CACHE_CLEAN_COMMANDS,
+                                                       line_number + 1))
 
     # Find groups of consecutive RUN commands that can be merged
     if len(run_commands) >= 2:
@@ -95,7 +105,6 @@ def analyze_run(instructions: List[Dict[str, Any]]) -> List[str]:
             if len(group) >= 2:
                 cmds = [cmd for cmd, _ in group]
                 lines = [line + 1 for _, line in group]
-                recommendation = get_recommendation_run(lines, cmds)
-                recommendations.append(recommendation)
+                recommendations.append(get_recommendation_run(lines, cmds))
 
     return recommendations
