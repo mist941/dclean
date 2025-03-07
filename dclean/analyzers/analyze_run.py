@@ -94,7 +94,7 @@ def analyze_run(instructions: List[Dict[str, Any]]) -> List[str]:
         for group in mergeable_groups:
             if len(group) >= 2:
                 cmds = [cmd for cmd, _ in group]
-                lines = [line for _, line in group]
+                lines = [line + 1 for _, line in group]
                 recommendation = get_recommendation_run(lines, cmds)
                 recommendations.append(recommendation)
 

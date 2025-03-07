@@ -100,7 +100,8 @@ def analyze_from(instruction: Dict[str, Any] = None) -> List[str]:
     if not instruction or "value" not in instruction:
         return []
 
-    instruction_value = instruction["value"]
+    instruction_value = instruction.get("value", "")
+    instruction_line = instruction.get("startline", -1) + 1
 
     # Check if the image already uses a light version
     if "slim" in instruction_value.lower(
@@ -134,7 +135,8 @@ def analyze_from(instruction: Dict[str, Any] = None) -> List[str]:
         # If slim versions found, return recommendation
         if recent_light_tags:
             return [
-                get_recommendation_from(repository_name, recent_light_tags)
+                get_recommendation_from(repository_name, recent_light_tags,
+                                        instruction_line)
             ]
     except Exception:
         pass
