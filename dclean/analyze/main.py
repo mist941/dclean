@@ -1,10 +1,10 @@
 from pathlib import Path
 from typing import Dict, List
 from dockerfile_parse import DockerfileParser
-from dclean.analyzers.analyze_cmd_entrypoint import analyze_cmd_entrypoint
-from dclean.analyzers.analyze_run import analyze_run
-from dclean.analyzers.analyze_from import analyze_from
-from dclean.analyzers.analyze_add import analyze_add
+from dclean.analyze.analyze_cmd_entrypoint import analyze_cmd_entrypoint
+from dclean.analyze.analyze_run import analyze_run
+from dclean.analyze.analyze_from import analyze_from
+from dclean.analyze.analyze_add import analyze_add
 
 
 def analyze_dockerfile(dockerfile_path: str) -> List[Dict[str, str]]:

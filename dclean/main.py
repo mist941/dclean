@@ -2,7 +2,7 @@ import click
 import os
 import sys
 from typing import Optional
-from dclean.analyzers.main import analyze_dockerfile
+from dclean.analyze.main import analyze_dockerfile
 from dclean.utils.get_analysis_result import get_analysis_result
 from dclean.utils.get_colored_analysis_result import get_colored_analysis_result
 

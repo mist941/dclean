@@ -1,4 +1,4 @@
-from dclean.analyzers.analyze_from import get_repository_version
+from dclean.analyze.analyze_from import get_repository_version
 
 
 def test_simple_image():

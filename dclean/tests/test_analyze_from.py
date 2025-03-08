@@ -1,4 +1,4 @@
-from dclean.analyzers.analyze_from import analyze_from
+from dclean.analyze.analyze_from import analyze_from
 
 
 def test_without_instruction():
