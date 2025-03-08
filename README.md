@@ -3,6 +3,7 @@
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Version](https://img.shields.io/badge/version-1.0.0-green.svg)](https://semver.org)
 
+## Table of Contents
 - [Project Description](#description)
 - [Installation](#installation)
 - [Usage](#usage)
