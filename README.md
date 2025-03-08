@@ -1,4 +1,4 @@
-# DClean
+# 🐳 DClean
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Version](https://img.shields.io/badge/version-1.0.0-green.svg)](https://semver.org)
@@ -17,7 +17,7 @@
 
 ## Description
 
-🐳 **DClean** is a powerful tool for analyzing Docker images and Dockerfiles.
+**DClean** is a powerful tool for analyzing Docker images and Dockerfiles.
 DClean leverages **Trivy** for comprehensive vulnerability scanning and provides **actionable recommendations** to optimize your Dockerfile instructions, helping you create leaner, faster, and more secure containers.
 
 ## Installation
