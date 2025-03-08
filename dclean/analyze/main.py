@@ -1,6 +1,7 @@
 from pathlib import Path
 from typing import Dict, List
 from dockerfile_parse import DockerfileParser
+from dclean.analyze.analyze_container import analyze_container
 from dclean.analyze.analyze_cmd_entrypoint import analyze_cmd_entrypoint
 from dclean.analyze.analyze_run import analyze_run
 from dclean.analyze.analyze_from import analyze_from
@@ -58,5 +59,7 @@ def analyze_dockerfile(dockerfile_path: str) -> List[Dict[str, str]]:
     for recommendation in analyze_run(parsed_file.structure):
         if recommendation:
             results.append({'instruction': "RUN", 'analysis': recommendation})
+
+    analyze_container(dockerfile_path)
 
     return results
