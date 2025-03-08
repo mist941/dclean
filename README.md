@@ -3,6 +3,8 @@
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Version](https://img.shields.io/badge/version-1.0.0-green.svg)](https://semver.org)
 
+⭐ If you find this project useful, please consider giving it a star to show your support!
+
 ## Table of Contents
 - [Project Description](#description)
 - [Installation](#installation)
@@ -35,5 +37,3 @@ DClean leverages **Trivy** for comprehensive vulnerability scanning and provides
 ## Contributing
 
 🤝 Contributions are welcome! Feel free to open issues and submit pull requests.
-
-⭐ If you find this project useful, please consider giving it a star to show your support!
