@@ -6,6 +6,11 @@ from dclean.api.get_repository_tags import get_repository_tags
 
 @pytest.fixture
 def mock_requests_get():
+    """
+    Fixture that mocks the requests.get function.
+    
+    Returns a mock object configured with common attributes for testing HTTP requests.
+    """
     with patch("requests.get") as mock_get:
         # Configure the mock with common attributes
         mock_response = mock_get.return_value
@@ -16,6 +21,11 @@ def mock_requests_get():
 
 @pytest.fixture
 def mock_tags_response():
+    """
+    Fixture that provides a mock response for Docker Hub tags API.
+    
+    Returns a dictionary containing sample tag data that mimics the Docker Hub API response.
+    """
     return {
         "results": [
             {
@@ -33,6 +43,11 @@ def mock_tags_response():
 
 def test_get_repository_tags_without_version_filter(mock_requests_get,
                                                     mock_tags_response):
+    """
+    Test retrieving repository tags without applying any version filter.
+    
+    Verifies that all tags are returned when no version filter is specified.
+    """
     repository = "nginx"
     mock_url = (
         f"https://hub.docker.com/v2/repositories/library/{repository}/tags?page=1&page_size=100"
@@ -47,6 +62,11 @@ def test_get_repository_tags_without_version_filter(mock_requests_get,
 
 def test_get_repository_tags_with_version_filter(mock_requests_get,
                                                  mock_tags_response):
+    """
+    Test retrieving repository tags with a version filter applied.
+    
+    Verifies that only tags matching the specified version filter are returned.
+    """
     repository = "nginx"
     version = "1.21"
     mock_url = (
@@ -61,6 +81,11 @@ def test_get_repository_tags_with_version_filter(mock_requests_get,
 
 
 def test_get_repository_tags_invalid_repo(mock_requests_get):
+    """
+    Test behavior when an invalid repository name is provided.
+    
+    Verifies that an empty list is returned when the repository doesn't exist.
+    """
     repository = "invalid_repo"
     mock_requests_get.return_value.json.return_value = {}
     mock_requests_get.return_value.status_code = 404
@@ -72,6 +97,11 @@ def test_get_repository_tags_invalid_repo(mock_requests_get):
 
 
 def test_get_repository_tags_exception_handling(mock_requests_get):
+    """
+    Test exception handling when a network error occurs.
+    
+    Verifies that an empty list is returned when a requests.RequestException is raised.
+    """
     repository = "nginx"
     mock_requests_get.side_effect = requests.RequestException("Network error")
     tags = get_repository_tags(repository)
@@ -88,6 +118,16 @@ def test_get_repository_tags_exception_handling(mock_requests_get):
 def test_get_repository_tags_parametrized(mock_requests_get,
                                           mock_tags_response, version_filter,
                                           expected_tags):
+    """
+    Parametrized test for retrieving repository tags with different version filters.
+    
+    Tests multiple scenarios:
+    - No version filter (None)
+    - Specific version filter ("1.21")
+    - "latest" version filter
+    
+    Verifies that the correct tags are returned for each filter type.
+    """
     repository = "nginx"
     mock_requests_get.return_value.json.return_value = mock_tags_response
 

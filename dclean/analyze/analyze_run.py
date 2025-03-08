@@ -44,6 +44,10 @@ def analyze_run(instructions: List[Dict[str, Any]]) -> List[str]:
     Returns:
         List of recommendations for improving RUN commands
     """
+
+    if not instructions:
+        return []
+
     run_commands: List[Tuple[str, int]] = []
     separators: List[Tuple[str, int]] = []
     recommendations: List[str] = []
