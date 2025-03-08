@@ -60,6 +60,8 @@ def analyze_dockerfile(dockerfile_path: str) -> List[Dict[str, str]]:
         if recommendation:
             results.append({'instruction': "RUN", 'analysis': recommendation})
 
-    analyze_container(dockerfile_path)
+    findings = analyze_container(dockerfile_path)
+    if findings:
+        results.append({'instruction': "CONTAINER", 'analysis': findings})
 
     return results
