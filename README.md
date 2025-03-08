@@ -11,7 +11,6 @@
 - [Technologies](#technologies)
 - [Authors](#authors)
 - [Contributing](#contributing)
-- [License](#license)
 
 
 ## Description
@@ -32,9 +31,8 @@ DClean is a tool for analyzing Docker images and Dockerfiles. Its goal is to red
 
 ## Authors
 
-
 ## Contributing
 
+🤝 Contributions are welcome! Feel free to open issues and submit pull requests.
 
-## License
-
+⭐ If you find this project useful, please consider giving it a star to show your support!
