@@ -8,7 +8,8 @@ from dclean.analyze.analyze_from import analyze_from
 from dclean.analyze.analyze_add import analyze_add
 
 
-def analyze_dockerfile(dockerfile_path: str) -> List[Dict[str, str]]:
+def analyze_dockerfile(dockerfile_path: str,
+                       deep_analysis: bool = False) -> List[Dict[str, str]]:
     """
     Analyze a Dockerfile and return the analysis results.
     
@@ -30,20 +31,21 @@ def analyze_dockerfile(dockerfile_path: str) -> List[Dict[str, str]]:
     # Parse the Dockerfile
     parsed_file = DockerfileParser(path=dockerfile_path)
 
-    results = []
+    dockerfile_analysis = []
+    container_vulnerabilities = []
 
     for instruction in parsed_file.structure:
         if instruction['instruction'] == "FROM":
             recommendation = analyze_from(instruction)
             if recommendation:
-                results.append({
+                dockerfile_analysis.append({
                     'instruction': "FROM",
                     'analysis': recommendation
                 })
         elif instruction['instruction'] == "ADD":
             recommendation = analyze_add(instruction)
             if recommendation:
-                results.append({
+                dockerfile_analysis.append({
                     'instruction': "ADD",
                     'analysis': recommendation
                 })
@@ -51,17 +53,21 @@ def analyze_dockerfile(dockerfile_path: str) -> List[Dict[str, str]]:
                 'instruction'] == "ENTRYPOINT":
             recommendation = analyze_cmd_entrypoint(instruction)
             if recommendation:
-                results.append({
-                    'instruction': instruction['instruction'],
-                    'analysis': recommendation
+                dockerfile_analysis.append({
+                    'instruction':
+                    instruction['instruction'],
+                    'analysis':
+                    recommendation
                 })
 
     for recommendation in analyze_run(parsed_file.structure):
         if recommendation:
-            results.append({'instruction': "RUN", 'analysis': recommendation})
+            dockerfile_analysis.append({
+                'instruction': "RUN",
+                'analysis': recommendation
+            })
 
-    findings = analyze_container(dockerfile_path)
-    if findings:
-        results.append({'instruction': "CONTAINER", 'analysis': findings})
+    if deep_analysis:
+        container_vulnerabilities = analyze_container(dockerfile_path)
 
-    return results
+    return dockerfile_analysis, container_vulnerabilities

@@ -5,6 +5,8 @@ from typing import Optional
 from dclean.analyze.main import analyze_dockerfile
 from dclean.utils.get_analysis_result import get_analysis_result
 from dclean.utils.get_colored_analysis_result import get_colored_analysis_result
+from dclean.utils.get_colored_vulnerabilities_results import get_colored_vulnerabilities_results
+from dclean.utils.get_vulnerabilities_results import get_vulnerabilities_results
 
 
 @click.group()
@@ -18,24 +20,34 @@ def cli():
               '--output',
               type=click.Path(writable=True),
               help="File to save the analysis results.")
+@click.option('-d', '--deep', is_flag=True, help="Enable deep analysis.")
 @click.argument('dockerfile', type=click.Path(exists=True))
-def analyze(dockerfile: str, output: Optional[str]):
+def analyze(dockerfile: str, output: Optional[str], deep: bool = False):
     """
     Analyze the given Dockerfile for issues and optimization opportunities.
     """
     try:
         click.echo(f"Analyzing {dockerfile}...")
-        recommendations = analyze_dockerfile(dockerfile)
+        recommendations, container_vulnerabilities = analyze_dockerfile(
+            dockerfile, deep)
 
         if output:
             os.makedirs(os.path.dirname(output) or '.', exist_ok=True)
             with open(output, 'w') as f:
                 f.write(get_analysis_result(
                     recommendations))  # Write plain text to file
+                if container_vulnerabilities:
+                    f.write("\n\n")
+                    f.write(
+                        get_vulnerabilities_results(container_vulnerabilities))
             click.echo(f"The results are saved in {output}")
         else:
-            click.echo(get_colored_analysis_result(
-                recommendations))  # Display colored output in terminal
+            click.echo(get_colored_analysis_result(recommendations))
+            if container_vulnerabilities:
+                click.echo("\n")
+                click.echo(
+                    get_colored_vulnerabilities_results(
+                        container_vulnerabilities))
 
     except Exception as e:
         click.echo(click.style(f"Error during analysis: {str(e)}",

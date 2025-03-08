@@ -88,17 +88,12 @@ def analyze_container(dockerfile_path: str) -> List[Dict[str, str]]:
 
     try:
         # Build the Docker image
-        image, build_logs = client.images.build(
+        image, _ = client.images.build(
             path=build_context,
             dockerfile=dockerfile_name,
             tag=image_tag,
             rm=True  # Remove intermediate containers
         )
-
-        # Log build output
-        for log in build_logs:
-            if 'stream' in log:
-                print(log['stream'].strip())
 
         # Scan the image for vulnerabilities
         scan_result = scan_docker_image(image.id)
