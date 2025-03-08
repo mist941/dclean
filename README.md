@@ -15,7 +15,8 @@
 
 ## Description
 
-DClean is a tool for analyzing Docker images and Dockerfiles. Its goal is to reduce container size, speed up build processes, and improve security. DClean identifies vulnerabilities using Trivy, and provides actionable recommendations for optimizing Dockerfile instructions.
+🐳 **DClean** is a powerful tool for analyzing Docker images and Dockerfiles.
+DClean leverages **Trivy** for comprehensive vulnerability scanning and provides **actionable recommendations** to optimize your Dockerfile instructions, helping you create leaner, faster, and more secure containers.
 
 ## Installation
 
