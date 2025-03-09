@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="dclean",
+    name="mist.dclean",
     version="0.1.0",
     author="Ivan Statkevich",
     author_email="statkevich.ivan@gmail.com",
