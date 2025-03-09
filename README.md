@@ -1,7 +1,7 @@
 # 🐳 DClean
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-1.0.0-green.svg)](https://semver.org)
+[![Version](https://img.shields.io/badge/version-0.1.0-green.svg)](https://semver.org)
 
 ⭐ If you find this project useful, please consider giving it a star to show your support!
 
@@ -57,12 +57,6 @@ dclean version 0.1.0
 
 ## Usage
 
-### Basic Commands
-
-```bash
-dclean version
-```
-
 ### Analyze a Dockerfile:
 ```bash
 dclean analyze path/to/Dockerfile
@@ -89,7 +83,7 @@ Save results to a file:
 ```bash
 dclean analyze dockerfiles/Dockerfile --deep --output examples/file_output.txt
 ```
-![File Output](./examples/file_output.txt)
+📄 [View sample output file](./examples/file_output.txt)
 
 
 ## Project Structure
