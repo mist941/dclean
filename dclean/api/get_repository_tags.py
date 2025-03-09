@@ -32,8 +32,6 @@ def get_repository_tags(repository: str, version: str = None) -> List[str]:
         # Add tags to our list
         tags.extend([item['name'] for item in results])
 
-        # Check if there are more pages
-
         # If version is specified, filter tags to match that version
         if version and version != "latest":
             # Extract major version (e.g., from "3.9.2" get "3.9")

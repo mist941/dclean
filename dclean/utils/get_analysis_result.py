@@ -6,6 +6,7 @@ def get_analysis_result(recommendations: List[Dict[str, str]]) -> str:
         result = "Analysis results: Dockerfile has no issues"
     else:
         result = "Analysis Results:\n" + "=" * 50 + "\n\n"
+        # Loop through each recommendation and format it
         for i, recommendation in enumerate(recommendations, 1):
             result += f"Issue #{i}:\n"
             result += f"    Instruction: {recommendation['instruction']}\n"

@@ -39,7 +39,7 @@ def analyze_run(instructions: List[Dict[str, Any]]) -> List[str]:
     Analyzes a list of RUN instructions and returns those that can be improved (merged).
 
     Args:
-        instructions: List of parsed Dockerfile instructions
+        instructions: List of parsed Dockerfile RUN instructions
 
     Returns:
         List of recommendations for improving RUN commands

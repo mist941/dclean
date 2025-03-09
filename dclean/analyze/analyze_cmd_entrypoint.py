@@ -7,8 +7,7 @@ def analyze_cmd_entrypoint(instruction: Dict[str, Any] = None) -> str:
     Analyze the CMD entrypoint syntax.
     
     Args:
-        instruction: Dictionary containing the CMD instruction details.
-            Expected keys: 'value', 'instruction', 'startline'
+        instruction: Dictionary containing the CMD instruction details
             
     Returns:
         List of recommendation strings. Empty list if no issues found.
