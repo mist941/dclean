@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="mist.dclean",
-    version="0.1.1",
+    version="0.1.2",
     author="Ivan Statkevich",
     author_email="statkevich.ivan@gmail.com",
     description="A tool for analyzing Dockerfiles and Docker images",
