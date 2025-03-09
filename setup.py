@@ -24,7 +24,6 @@ setup(
         "Intended Audience :: Developers",
         "Intended Audience :: System Administrators",
         "Intended Audience :: Information Technology",
-        "Intended Audience :: DevOps",
         "Topic :: Software Development :: Tools",
         "Topic :: System :: Systems Administration",
     ],
