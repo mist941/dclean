@@ -29,7 +29,7 @@ DClean leverages **Trivy** for comprehensive vulnerability scanning and provides
 ### Option 1: Install from PyPI
 
 ```bash
-pip install dclean
+pip install mist.dclean
 ```
 
 ### Option 2: Install from Source
