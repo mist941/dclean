@@ -109,6 +109,28 @@ DClean is built using the following technologies and tools:
 
 ## Authors
 
+- **Ivan Statkevich** - *Initial work* - [mist941](https://github.com/mist941)
+
+This project is maintained by [Ivan Statkevich](https://github.com/mist941). Feel free to reach out with questions or feedback.
+
 ## Contributing
 
 🤝 Contributions are welcome! Feel free to open issues and submit pull requests.
+
+### Getting Started
+
+1. **Fork the repository** on GitHub
+2. **Clone your fork** to your local machine
+3. **Create a new branch** from the `dev` branch for your feature or bugfix
+4. **Make your changes** and commit them with descriptive messages
+5. **Push your branch** to your GitHub fork
+6. **Open a pull request** from your branch to the `dev` branch of the main repository
+
+### Reporting Issues
+
+If you find a bug or have a feature request, please open an issue on GitHub with:
+
+- A clear, descriptive title
+- A detailed description of the issue or feature
+- Steps to reproduce (for bugs)
+- Any relevant logs or screenshots
