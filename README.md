@@ -87,7 +87,14 @@ dclean analyze dockerfiles/Dockerfile --deep --output examples/file_output.txt
 
 
 ## Project Structure
-
+The DClean project is organized as follows:
+dclean/
+├── init.py
+├── main.py # CLI entry point
+├── analyze # Analyze Dockerfiles and Docker images
+├── utils # Utility functions
+├── api # API for analyzing Docker images
+└── tests # Tests
 
 ## Technologies
 

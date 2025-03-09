@@ -5,7 +5,7 @@ setup(
     version="0.1.0",
     author="Ivan Statkevich",
     author_email="statkevich.ivan@gmail.com",
-    description="A tool for analyzing and optimizing Docker",
+    description="A tool for analyzing Dockerfiles and Docker images",
     long_description=open("README.md", encoding="utf-8").read(),
     long_description_content_type="text/markdown",
     url="https://github.com/mist941/dclean",

@@ -12,7 +12,7 @@ from dclean import __version__
 
 @click.group()
 def cli():
-    """Docker Dependency Cleaner - Analyze and optimize Docker dependencies"""
+    """DClean - Analyze Dockerfiles and Docker images"""
     pass
 
 
@@ -31,7 +31,7 @@ def version():
 @click.argument('dockerfile', type=click.Path(exists=True))
 def analyze(dockerfile: str, output: Optional[str], deep: bool = False):
     """
-    Analyze the given Dockerfile for issues and optimization opportunities.
+    Analyze the given Dockerfiles and Docker images.
     """
     try:
         click.echo(f"Analyzing {dockerfile}...")
