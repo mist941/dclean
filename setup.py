@@ -11,8 +11,10 @@ setup(
     url="https://github.com/mist941/dclean",
     packages=find_packages(),
     install_requires=[
-        "docker>=7.0.0,<8.0.0", "dockerfile-parse>=2.0.0,<3.0.0",
-        "click>=8.0.0,<9.0.0"
+        "docker>=7.0.0,<8.0.0",
+        "dockerfile-parse>=2.0.0,<3.0.0",
+        "click>=8.0.0,<9.0.0",
+        "trivy>=0.45.0,<0.46.0",
     ],
     entry_points={"console_scripts": ["dclean=dclean.main:cli"]},
     classifiers=[

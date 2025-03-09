@@ -7,12 +7,19 @@ from dclean.utils.get_analysis_result import get_analysis_result
 from dclean.utils.get_colored_analysis_result import get_colored_analysis_result
 from dclean.utils.get_colored_vulnerabilities_results import get_colored_vulnerabilities_results
 from dclean.utils.get_vulnerabilities_results import get_vulnerabilities_results
+from dclean import __version__
 
 
 @click.group()
 def cli():
     """Docker Dependency Cleaner - Analyze and optimize Docker dependencies"""
     pass
+
+
+@cli.command()
+def version():
+    """Display the current version of dclean."""
+    click.echo(f"dclean version {__version__}")
 
 
 @cli.command()
