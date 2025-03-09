@@ -55,8 +55,41 @@ You should see the following output:
 dclean version 0.1.0
 ```
 
-
 ## Usage
+
+### Basic Commands
+
+```bash
+dclean version
+```
+
+### Analyze a Dockerfile:
+```bash
+dclean analyze path/to/Dockerfile
+``` 
+### Analysis Options
+
+Save analysis results to a file:
+```bash
+dclean analyze path/to/Dockerfile --output path/to/output.txt
+```
+Perform deep analysis (includes vulnerability scanning):
+```bash
+dclean analyze path/to/Dockerfile --deep
+```
+### Examples
+
+Deep analysis with colored output in terminal:
+```bash
+dclean analyze dockerfiles/Dockerfile --deep
+```
+![Terminal Output](./examples/terminal_output.png)
+
+Save results to a file:
+```bash
+dclean analyze dockerfiles/Dockerfile --deep --output examples/file_output.txt
+```
+![File Output](./examples/file_output.txt)
 
 
 ## Project Structure

@@ -1,0 +1,906 @@
+Analysis Results:
+==================================================
+
+Issue #1:
+    Instruction: RUN
+    Analysis: Line 3: Consider adding '--no-install-recommends' to apt-get install to reduce image size by not installing recommended but non-essential packages.
+
+==================================================
+
+Security Scan Results:
+==================================================
+
+Summary:
+    LOW: 84 issue(s)
+    MEDIUM: 33 issue(s)
+    HIGH: 5 issue(s)
+    CRITICAL: 1 issue(s)
+
+Vulnerability #1:
+    Severity: LOW
+    Package: apt
+    Version: 2.6.1
+    Description: It was found that apt-key in apt, all versions, do not correctly validate gpg keys with the master keyring, leading to a potential man-in-the-middle attack.
+
+Vulnerability #2:
+    Severity: LOW
+    Package: bash
+    Version: 5.2.15-2+b7
+    Description: No description
+
+Vulnerability #3:
+    Severity: LOW
+    Package: bsdutils
+    Version: 1:2.38.1-5+deb12u3
+    Description: A flaw was found in the util-linux chfn and chsh utilities when compiled with Readline support. The Readline library uses an "INPUTRC" environment variable to get a path to the library config file. When the library cannot parse the specified file, it prints an error message containing data from the file. This flaw allows an unprivileged user to read root-owned files, potentially leading to privilege escalation. This flaw affects util-linux versions prior to 2.37.4.
+
+Vulnerability #4:
+    Severity: LOW
+    Package: coreutils
+    Version: 9.1-1
+    Description: chroot in GNU coreutils, when used with --userspec, allows local users to escape to the parent session via a crafted TIOCSTI ioctl call, which pushes characters to the terminal's input buffer.
+
+Vulnerability #5:
+    Severity: LOW
+    Package: coreutils
+    Version: 9.1-1
+    Description: In GNU Coreutils through 8.29, chown-core.c in chown and chgrp does not prevent replacement of a plain file with a symlink during use of the POSIX "-R -L" options, which allows local users to modify the ownership of arbitrary files by leveraging a race condition.
+
+Vulnerability #6:
+    Severity: MEDIUM
+    Package: curl
+    Version: 7.88.1-10+deb12u8
+    Description: When asked to both use a `.netrc` file for credentials and to follow HTTP
+redirects, curl could leak the password used for the first host to the
+followed-to host under certain circumstances.
+
+This flaw only manifests itself if the netrc file has an entry that matches
+the redirect target hostname but the entry either omits just the password or
+omits both login and password.
+
+Vulnerability #7:
+    Severity: MEDIUM
+    Package: curl
+    Version: 7.88.1-10+deb12u8
+    Description: When curl is asked to use HSTS, the expiry time for a subdomain might
+overwrite a parent domain's cache entry, making it end sooner or later than
+otherwise intended.
+
+This affects curl using applications that enable HSTS and use URLs with the
+insecure `HTTP://` scheme and perform transfers with hosts like
+`x.example.com` as well as `example.com` where the first host is a subdomain
+of the second host.
+
+(The HSTS cache either needs to have been populated manually or there needs to
+have been previous HTTPS accesses done as the cache needs to have entries for
+the domains involved to trigger this problem.)
+
+When `x.example.com` responds with `Strict-Transport-Security:` headers, this
+bug can make the subdomain's expiry timeout *bleed over* and get set for the
+parent domain `example.com` in curl's HSTS cache.
+
+The result of a triggered bug is that HTTP accesses to `example.com` get
+converted to HTTPS for a different period of time than what was asked for by
+the origin server. If `example.com` for example stops supporting HTTPS at its
+expiry time, curl might then fail to access `http://example.com` until the
+(wrongly set) timeout expires. This bug can also expire the parent's entry
+*earlier*, thus making curl inadvertently switch back to insecure HTTP earlier
+than otherwise intended.
+
+Vulnerability #8:
+    Severity: LOW
+    Package: curl
+    Version: 7.88.1-10+deb12u8
+    Description: libcurl skips the certificate verification for a QUIC connection under certain conditions, when built to use wolfSSL. If told to use an unknown/bad cipher or curve, the error path accidentally skips the verification and returns OK, thus ignoring any certificate problems.
+
+Vulnerability #9:
+    Severity: LOW
+    Package: curl
+    Version: 7.88.1-10+deb12u8
+    Description: When asked to use a `.netrc` file for credentials **and** to follow HTTP
+redirects, curl could leak the password used for the first host to the
+followed-to host under certain circumstances.
+
+This flaw only manifests itself if the netrc file has a `default` entry that
+omits both login and password. A rare circumstance.
+
+Vulnerability #10:
+    Severity: LOW
+    Package: curl
+    Version: 7.88.1-10+deb12u8
+    Description: When libcurl is asked to perform automatic gzip decompression of
+content-encoded HTTP responses with the `CURLOPT_ACCEPT_ENCODING` option,
+**using zlib 1.2.0.3 or older**, an attacker-controlled integer overflow would
+make libcurl perform a buffer overflow.
+
+Vulnerability #11:
+    Severity: LOW
+    Package: gcc-12-base
+    Version: 12.2.0-14
+    Description: libiberty/rust-demangle.c in GNU GCC 11.2 allows stack consumption in demangle_const, as demonstrated by nm-new.
+
+Vulnerability #12:
+    Severity: LOW
+    Package: gcc-12-base
+    Version: 12.2.0-14
+    Description: **DISPUTED**A failure in the -fstack-protector feature in GCC-based toolchains 
+that target AArch64 allows an attacker to exploit an existing buffer 
+overflow in dynamically-sized local variables in your application 
+without this being detected. This stack-protector failure only applies 
+to C99-style dynamically-sized local variables or those created using 
+alloca(). The stack-protector operates as intended for statically-sized 
+local variables.
+
+The default behavior when the stack-protector 
+detects an overflow is to terminate your application, resulting in 
+controlled loss of availability. An attacker who can exploit a buffer 
+overflow without triggering the stack-protector might be able to change 
+program flow control to cause an uncontrolled loss of availability or to
+ go further and affect confidentiality or integrity. NOTE: The GCC project argues that this is a missed hardening bug and not a vulnerability by itself.
+
+Vulnerability #13:
+    Severity: LOW
+    Package: gpgv
+    Version: 2.2.40-1.1
+    Description: GnuPG can be made to spin on a relatively small input by (for example) crafting a public key with thousands of signatures attached, compressed down to just a few KB.
+
+Vulnerability #14:
+    Severity: LOW
+    Package: libapt-pkg6.0
+    Version: 2.6.1
+    Description: It was found that apt-key in apt, all versions, do not correctly validate gpg keys with the master keyring, leading to a potential man-in-the-middle attack.
+
+Vulnerability #15:
+    Severity: LOW
+    Package: libblkid1
+    Version: 2.38.1-5+deb12u3
+    Description: A flaw was found in the util-linux chfn and chsh utilities when compiled with Readline support. The Readline library uses an "INPUTRC" environment variable to get a path to the library config file. When the library cannot parse the specified file, it prints an error message containing data from the file. This flaw allows an unprivileged user to read root-owned files, potentially leading to privilege escalation. This flaw affects util-linux versions prior to 2.37.4.
+
+Vulnerability #16:
+    Severity: MEDIUM
+    Package: libc-bin
+    Version: 2.36-9+deb12u9
+    Description: When the assert() function in the GNU C Library versions 2.13 to 2.40 fails, it does not allocate enough space for the assertion failure message string and size information, which may lead to a buffer overflow if the message string size aligns to page size.
+
+Vulnerability #17:
+    Severity: LOW
+    Package: libc-bin
+    Version: 2.36-9+deb12u9
+    Description: The glob implementation in the GNU C Library (aka glibc or libc6) allows remote authenticated users to cause a denial of service (CPU and memory consumption) via crafted glob expressions that do not match any pathnames, as demonstrated by glob expressions in STAT commands to an FTP daemon, a different vulnerability than CVE-2010-2632.
+
+Vulnerability #18:
+    Severity: LOW
+    Package: libc-bin
+    Version: 2.36-9+deb12u9
+    Description: In the GNU C Library (aka glibc or libc6) through 2.29, check_dst_limits_calc_pos_1 in posix/regexec.c has Uncontrolled Recursion, as demonstrated by '(\227|)(\\1\\1|t1|\\\2537)+' in grep.
+
+Vulnerability #19:
+    Severity: LOW
+    Package: libc-bin
+    Version: 2.36-9+deb12u9
+    Description: GNU Libc current is affected by: Mitigation bypass. The impact is: Attacker may bypass stack guard protection. The component is: nptl. The attack vector is: Exploit stack buffer overflow vulnerability and use this bypass vulnerability to bypass stack guard. NOTE: Upstream comments indicate "this is being treated as a non-security bug and no real threat.
+
+Vulnerability #20:
+    Severity: LOW
+    Package: libc-bin
+    Version: 2.36-9+deb12u9
+    Description: GNU Libc current is affected by: Re-mapping current loaded library with malicious ELF file. The impact is: In worst case attacker may evaluate privileges. The component is: libld. The attack vector is: Attacker sends 2 ELF files to victim and asks to run ldd on it. ldd execute code. NOTE: Upstream comments indicate "this is being treated as a non-security bug and no real threat.
+
+Vulnerability #21:
+    Severity: LOW
+    Package: libc-bin
+    Version: 2.36-9+deb12u9
+    Description: GNU Libc current is affected by: Mitigation bypass. The impact is: Attacker may bypass ASLR using cache of thread stack and heap. The component is: glibc. NOTE: Upstream comments indicate "this is being treated as a non-security bug and no real threat.
+
+Vulnerability #22:
+    Severity: LOW
+    Package: libc-bin
+    Version: 2.36-9+deb12u9
+    Description: GNU Libc current is affected by: Mitigation bypass. The impact is: Attacker may guess the heap addresses of pthread_created thread. The component is: glibc. NOTE: the vendor's position is "ASLR bypass itself is not a vulnerability.
+
+Vulnerability #23:
+    Severity: LOW
+    Package: libc-bin
+    Version: 2.36-9+deb12u9
+    Description: In the GNU C Library (aka glibc or libc6) through 2.29, check_dst_limits_calc_pos_1 in posix/regexec.c has Uncontrolled Recursion, as demonstrated by '(|)(\\1\\1)*' in grep, a different issue than CVE-2018-20796. NOTE: the software maintainer disputes that this is a vulnerability because the behavior occurs only with a crafted pattern
+
+Vulnerability #24:
+    Severity: MEDIUM
+    Package: libc6
+    Version: 2.36-9+deb12u9
+    Description: When the assert() function in the GNU C Library versions 2.13 to 2.40 fails, it does not allocate enough space for the assertion failure message string and size information, which may lead to a buffer overflow if the message string size aligns to page size.
+
+Vulnerability #25:
+    Severity: LOW
+    Package: libc6
+    Version: 2.36-9+deb12u9
+    Description: The glob implementation in the GNU C Library (aka glibc or libc6) allows remote authenticated users to cause a denial of service (CPU and memory consumption) via crafted glob expressions that do not match any pathnames, as demonstrated by glob expressions in STAT commands to an FTP daemon, a different vulnerability than CVE-2010-2632.
+
+Vulnerability #26:
+    Severity: LOW
+    Package: libc6
+    Version: 2.36-9+deb12u9
+    Description: In the GNU C Library (aka glibc or libc6) through 2.29, check_dst_limits_calc_pos_1 in posix/regexec.c has Uncontrolled Recursion, as demonstrated by '(\227|)(\\1\\1|t1|\\\2537)+' in grep.
+
+Vulnerability #27:
+    Severity: LOW
+    Package: libc6
+    Version: 2.36-9+deb12u9
+    Description: GNU Libc current is affected by: Mitigation bypass. The impact is: Attacker may bypass stack guard protection. The component is: nptl. The attack vector is: Exploit stack buffer overflow vulnerability and use this bypass vulnerability to bypass stack guard. NOTE: Upstream comments indicate "this is being treated as a non-security bug and no real threat.
+
+Vulnerability #28:
+    Severity: LOW
+    Package: libc6
+    Version: 2.36-9+deb12u9
+    Description: GNU Libc current is affected by: Re-mapping current loaded library with malicious ELF file. The impact is: In worst case attacker may evaluate privileges. The component is: libld. The attack vector is: Attacker sends 2 ELF files to victim and asks to run ldd on it. ldd execute code. NOTE: Upstream comments indicate "this is being treated as a non-security bug and no real threat.
+
+Vulnerability #29:
+    Severity: LOW
+    Package: libc6
+    Version: 2.36-9+deb12u9
+    Description: GNU Libc current is affected by: Mitigation bypass. The impact is: Attacker may bypass ASLR using cache of thread stack and heap. The component is: glibc. NOTE: Upstream comments indicate "this is being treated as a non-security bug and no real threat.
+
+Vulnerability #30:
+    Severity: LOW
+    Package: libc6
+    Version: 2.36-9+deb12u9
+    Description: GNU Libc current is affected by: Mitigation bypass. The impact is: Attacker may guess the heap addresses of pthread_created thread. The component is: glibc. NOTE: the vendor's position is "ASLR bypass itself is not a vulnerability.
+
+Vulnerability #31:
+    Severity: LOW
+    Package: libc6
+    Version: 2.36-9+deb12u9
+    Description: In the GNU C Library (aka glibc or libc6) through 2.29, check_dst_limits_calc_pos_1 in posix/regexec.c has Uncontrolled Recursion, as demonstrated by '(|)(\\1\\1)*' in grep, a different issue than CVE-2018-20796. NOTE: the software maintainer disputes that this is a vulnerability because the behavior occurs only with a crafted pattern
+
+Vulnerability #32:
+    Severity: MEDIUM
+    Package: libcap2
+    Version: 1:2.66-4
+    Description: The PAM module pam_cap.so of libcap configuration supports group names starting with “@”, during actual parsing, configurations not starting with “@” are incorrectly recognized as group names. This may result in nonintended users being granted an inherited capability set, potentially leading to security risks. Attackers can exploit this vulnerability to achieve local privilege escalation on systems where /etc/security/capability.conf is used to configure user inherited privileges by constructing specific usernames.
+
+Vulnerability #33:
+    Severity: MEDIUM
+    Package: libcurl4
+    Version: 7.88.1-10+deb12u8
+    Description: When asked to both use a `.netrc` file for credentials and to follow HTTP
+redirects, curl could leak the password used for the first host to the
+followed-to host under certain circumstances.
+
+This flaw only manifests itself if the netrc file has an entry that matches
+the redirect target hostname but the entry either omits just the password or
+omits both login and password.
+
+Vulnerability #34:
+    Severity: MEDIUM
+    Package: libcurl4
+    Version: 7.88.1-10+deb12u8
+    Description: When curl is asked to use HSTS, the expiry time for a subdomain might
+overwrite a parent domain's cache entry, making it end sooner or later than
+otherwise intended.
+
+This affects curl using applications that enable HSTS and use URLs with the
+insecure `HTTP://` scheme and perform transfers with hosts like
+`x.example.com` as well as `example.com` where the first host is a subdomain
+of the second host.
+
+(The HSTS cache either needs to have been populated manually or there needs to
+have been previous HTTPS accesses done as the cache needs to have entries for
+the domains involved to trigger this problem.)
+
+When `x.example.com` responds with `Strict-Transport-Security:` headers, this
+bug can make the subdomain's expiry timeout *bleed over* and get set for the
+parent domain `example.com` in curl's HSTS cache.
+
+The result of a triggered bug is that HTTP accesses to `example.com` get
+converted to HTTPS for a different period of time than what was asked for by
+the origin server. If `example.com` for example stops supporting HTTPS at its
+expiry time, curl might then fail to access `http://example.com` until the
+(wrongly set) timeout expires. This bug can also expire the parent's entry
+*earlier*, thus making curl inadvertently switch back to insecure HTTP earlier
+than otherwise intended.
+
+Vulnerability #35:
+    Severity: LOW
+    Package: libcurl4
+    Version: 7.88.1-10+deb12u8
+    Description: libcurl skips the certificate verification for a QUIC connection under certain conditions, when built to use wolfSSL. If told to use an unknown/bad cipher or curve, the error path accidentally skips the verification and returns OK, thus ignoring any certificate problems.
+
+Vulnerability #36:
+    Severity: LOW
+    Package: libcurl4
+    Version: 7.88.1-10+deb12u8
+    Description: When asked to use a `.netrc` file for credentials **and** to follow HTTP
+redirects, curl could leak the password used for the first host to the
+followed-to host under certain circumstances.
+
+This flaw only manifests itself if the netrc file has a `default` entry that
+omits both login and password. A rare circumstance.
+
+Vulnerability #37:
+    Severity: LOW
+    Package: libcurl4
+    Version: 7.88.1-10+deb12u8
+    Description: When libcurl is asked to perform automatic gzip decompression of
+content-encoded HTTP responses with the `CURLOPT_ACCEPT_ENCODING` option,
+**using zlib 1.2.0.3 or older**, an attacker-controlled integer overflow would
+make libcurl perform a buffer overflow.
+
+Vulnerability #38:
+    Severity: LOW
+    Package: libgcc-s1
+    Version: 12.2.0-14
+    Description: libiberty/rust-demangle.c in GNU GCC 11.2 allows stack consumption in demangle_const, as demonstrated by nm-new.
+
+Vulnerability #39:
+    Severity: LOW
+    Package: libgcc-s1
+    Version: 12.2.0-14
+    Description: **DISPUTED**A failure in the -fstack-protector feature in GCC-based toolchains 
+that target AArch64 allows an attacker to exploit an existing buffer 
+overflow in dynamically-sized local variables in your application 
+without this being detected. This stack-protector failure only applies 
+to C99-style dynamically-sized local variables or those created using 
+alloca(). The stack-protector operates as intended for statically-sized 
+local variables.
+
+The default behavior when the stack-protector 
+detects an overflow is to terminate your application, resulting in 
+controlled loss of availability. An attacker who can exploit a buffer 
+overflow without triggering the stack-protector might be able to change 
+program flow control to cause an uncontrolled loss of availability or to
+ go further and affect confidentiality or integrity. NOTE: The GCC project argues that this is a missed hardening bug and not a vulnerability by itself.
+
+Vulnerability #40:
+    Severity: MEDIUM
+    Package: libgcrypt20
+    Version: 1.10.1-3
+    Description: A timing-based side-channel flaw was found in libgcrypt's RSA implementation. This issue may allow a remote attacker to initiate a Bleichenbacher-style attack, which can lead to the decryption of RSA ciphertexts.
+
+Vulnerability #41:
+    Severity: LOW
+    Package: libgcrypt20
+    Version: 1.10.1-3
+    Description: cipher/elgamal.c in Libgcrypt through 1.8.2, when used to encrypt messages directly, improperly encodes plaintexts, which allows attackers to obtain sensitive information by reading ciphertext data (i.e., it does not have semantic security in face of a ciphertext-only attack). The Decisional Diffie-Hellman (DDH) assumption does not hold for Libgcrypt's ElGamal implementation.
+
+Vulnerability #42:
+    Severity: LOW
+    Package: libgnutls30
+    Version: 3.7.9-2+deb12u4
+    Description: The SSL protocol, as used in certain configurations in Microsoft Windows and Microsoft Internet Explorer, Mozilla Firefox, Google Chrome, Opera, and other products, encrypts data by using CBC mode with chained initialization vectors, which allows man-in-the-middle attackers to obtain plaintext HTTP headers via a blockwise chosen-boundary attack (BCBA) on an HTTPS session, in conjunction with JavaScript code that uses (1) the HTML5 WebSocket API, (2) the Java URLConnection API, or (3) the Silverlight WebClient API, aka a "BEAST" attack.
+
+Vulnerability #43:
+    Severity: MEDIUM
+    Package: libgssapi-krb5-2
+    Version: 1.20.1-2+deb12u2
+    Description: Kerberos 5 (aka krb5) 1.21.2 contains a memory leak vulnerability in /krb5/src/kdc/ndr.c.
+
+Vulnerability #44:
+    Severity: MEDIUM
+    Package: libgssapi-krb5-2
+    Version: 1.20.1-2+deb12u2
+    Description: A flaw was found in krb5. With incremental propagation enabled, an authenticated attacker can cause kadmind to write beyond the end of the mapped region for the iprop log file. This issue can trigger a process crash and lead to a denial of service.
+
+Vulnerability #45:
+    Severity: LOW
+    Package: libgssapi-krb5-2
+    Version: 1.20.1-2+deb12u2
+    Description: An issue was discovered in MIT Kerberos 5 (aka krb5) through 1.16. There is a variable "dbentry->n_key_data" in kadmin/dbutil/dump.c that can store 16-bit data but unknowingly the developer has assigned a "u4" variable to it, which is for 32-bit data. An attacker can use this vulnerability to affect other artifacts of the database as we know that a Kerberos database dump file contains trusted data.
+
+Vulnerability #46:
+    Severity: LOW
+    Package: libgssapi-krb5-2
+    Version: 1.20.1-2+deb12u2
+    Description: Kerberos 5 (aka krb5) 1.21.2 contains a memory leak in /krb5/src/lib/rpc/pmap_rmt.c.
+
+Vulnerability #47:
+    Severity: LOW
+    Package: libgssapi-krb5-2
+    Version: 1.20.1-2+deb12u2
+    Description: Kerberos 5 (aka krb5) 1.21.2 contains a memory leak vulnerability in /krb5/src/lib/gssapi/krb5/k5sealv3.c.
+
+Vulnerability #48:
+    Severity: MEDIUM
+    Package: libk5crypto3
+    Version: 1.20.1-2+deb12u2
+    Description: Kerberos 5 (aka krb5) 1.21.2 contains a memory leak vulnerability in /krb5/src/kdc/ndr.c.
+
+Vulnerability #49:
+    Severity: MEDIUM
+    Package: libk5crypto3
+    Version: 1.20.1-2+deb12u2
+    Description: A flaw was found in krb5. With incremental propagation enabled, an authenticated attacker can cause kadmind to write beyond the end of the mapped region for the iprop log file. This issue can trigger a process crash and lead to a denial of service.
+
+Vulnerability #50:
+    Severity: LOW
+    Package: libk5crypto3
+    Version: 1.20.1-2+deb12u2
+    Description: An issue was discovered in MIT Kerberos 5 (aka krb5) through 1.16. There is a variable "dbentry->n_key_data" in kadmin/dbutil/dump.c that can store 16-bit data but unknowingly the developer has assigned a "u4" variable to it, which is for 32-bit data. An attacker can use this vulnerability to affect other artifacts of the database as we know that a Kerberos database dump file contains trusted data.
+
+Vulnerability #51:
+    Severity: LOW
+    Package: libk5crypto3
+    Version: 1.20.1-2+deb12u2
+    Description: Kerberos 5 (aka krb5) 1.21.2 contains a memory leak in /krb5/src/lib/rpc/pmap_rmt.c.
+
+Vulnerability #52:
+    Severity: LOW
+    Package: libk5crypto3
+    Version: 1.20.1-2+deb12u2
+    Description: Kerberos 5 (aka krb5) 1.21.2 contains a memory leak vulnerability in /krb5/src/lib/gssapi/krb5/k5sealv3.c.
+
+Vulnerability #53:
+    Severity: MEDIUM
+    Package: libkrb5-3
+    Version: 1.20.1-2+deb12u2
+    Description: Kerberos 5 (aka krb5) 1.21.2 contains a memory leak vulnerability in /krb5/src/kdc/ndr.c.
+
+Vulnerability #54:
+    Severity: MEDIUM
+    Package: libkrb5-3
+    Version: 1.20.1-2+deb12u2
+    Description: A flaw was found in krb5. With incremental propagation enabled, an authenticated attacker can cause kadmind to write beyond the end of the mapped region for the iprop log file. This issue can trigger a process crash and lead to a denial of service.
+
+Vulnerability #55:
+    Severity: LOW
+    Package: libkrb5-3
+    Version: 1.20.1-2+deb12u2
+    Description: An issue was discovered in MIT Kerberos 5 (aka krb5) through 1.16. There is a variable "dbentry->n_key_data" in kadmin/dbutil/dump.c that can store 16-bit data but unknowingly the developer has assigned a "u4" variable to it, which is for 32-bit data. An attacker can use this vulnerability to affect other artifacts of the database as we know that a Kerberos database dump file contains trusted data.
+
+Vulnerability #56:
+    Severity: LOW
+    Package: libkrb5-3
+    Version: 1.20.1-2+deb12u2
+    Description: Kerberos 5 (aka krb5) 1.21.2 contains a memory leak in /krb5/src/lib/rpc/pmap_rmt.c.
+
+Vulnerability #57:
+    Severity: LOW
+    Package: libkrb5-3
+    Version: 1.20.1-2+deb12u2
+    Description: Kerberos 5 (aka krb5) 1.21.2 contains a memory leak vulnerability in /krb5/src/lib/gssapi/krb5/k5sealv3.c.
+
+Vulnerability #58:
+    Severity: MEDIUM
+    Package: libkrb5support0
+    Version: 1.20.1-2+deb12u2
+    Description: Kerberos 5 (aka krb5) 1.21.2 contains a memory leak vulnerability in /krb5/src/kdc/ndr.c.
+
+Vulnerability #59:
+    Severity: MEDIUM
+    Package: libkrb5support0
+    Version: 1.20.1-2+deb12u2
+    Description: A flaw was found in krb5. With incremental propagation enabled, an authenticated attacker can cause kadmind to write beyond the end of the mapped region for the iprop log file. This issue can trigger a process crash and lead to a denial of service.
+
+Vulnerability #60:
+    Severity: LOW
+    Package: libkrb5support0
+    Version: 1.20.1-2+deb12u2
+    Description: An issue was discovered in MIT Kerberos 5 (aka krb5) through 1.16. There is a variable "dbentry->n_key_data" in kadmin/dbutil/dump.c that can store 16-bit data but unknowingly the developer has assigned a "u4" variable to it, which is for 32-bit data. An attacker can use this vulnerability to affect other artifacts of the database as we know that a Kerberos database dump file contains trusted data.
+
+Vulnerability #61:
+    Severity: LOW
+    Package: libkrb5support0
+    Version: 1.20.1-2+deb12u2
+    Description: Kerberos 5 (aka krb5) 1.21.2 contains a memory leak in /krb5/src/lib/rpc/pmap_rmt.c.
+
+Vulnerability #62:
+    Severity: LOW
+    Package: libkrb5support0
+    Version: 1.20.1-2+deb12u2
+    Description: Kerberos 5 (aka krb5) 1.21.2 contains a memory leak vulnerability in /krb5/src/lib/gssapi/krb5/k5sealv3.c.
+
+Vulnerability #63:
+    Severity: HIGH
+    Package: libldap-2.5-0
+    Version: 2.5.13+dfsg-5
+    Description: A vulnerability was found in openldap. This security flaw causes a null pointer dereference in ber_memalloc_x() function.
+
+Vulnerability #64:
+    Severity: LOW
+    Package: libldap-2.5-0
+    Version: 2.5.13+dfsg-5
+    Description: The nss_parse_ciphers function in libraries/libldap/tls_m.c in OpenLDAP does not properly parse OpenSSL-style multi-keyword mode cipher strings, which might cause a weaker than intended cipher to be used and allow remote attackers to have unspecified impact via unknown vectors.
+
+Vulnerability #65:
+    Severity: LOW
+    Package: libldap-2.5-0
+    Version: 2.5.13+dfsg-5
+    Description: slapd in OpenLDAP 2.4.45 and earlier creates a PID file after dropping privileges to a non-root account, which might allow local users to kill arbitrary processes by leveraging access to this non-root account for PID file modification before a root script executes a "kill `cat /pathname`" command, as demonstrated by openldap-initscript.
+
+Vulnerability #66:
+    Severity: LOW
+    Package: libldap-2.5-0
+    Version: 2.5.13+dfsg-5
+    Description: contrib/slapd-modules/nops/nops.c in OpenLDAP through 2.4.45, when both the nops module and the memberof overlay are enabled, attempts to free a buffer that was allocated on the stack, which allows remote attackers to cause a denial of service (slapd crash) via a member MODDN operation.
+
+Vulnerability #67:
+    Severity: LOW
+    Package: libldap-2.5-0
+    Version: 2.5.13+dfsg-5
+    Description: libldap in certain third-party OpenLDAP packages has a certificate-validation flaw when the third-party package is asserting RFC6125 support. It considers CN even when there is a non-matching subjectAltName (SAN). This is fixed in, for example, openldap-2.4.46-10.el8 in Red Hat Enterprise Linux.
+
+Vulnerability #68:
+    Severity: HIGH
+    Package: libldap-common
+    Version: 2.5.13+dfsg-5
+    Description: A vulnerability was found in openldap. This security flaw causes a null pointer dereference in ber_memalloc_x() function.
+
+Vulnerability #69:
+    Severity: LOW
+    Package: libldap-common
+    Version: 2.5.13+dfsg-5
+    Description: The nss_parse_ciphers function in libraries/libldap/tls_m.c in OpenLDAP does not properly parse OpenSSL-style multi-keyword mode cipher strings, which might cause a weaker than intended cipher to be used and allow remote attackers to have unspecified impact via unknown vectors.
+
+Vulnerability #70:
+    Severity: LOW
+    Package: libldap-common
+    Version: 2.5.13+dfsg-5
+    Description: slapd in OpenLDAP 2.4.45 and earlier creates a PID file after dropping privileges to a non-root account, which might allow local users to kill arbitrary processes by leveraging access to this non-root account for PID file modification before a root script executes a "kill `cat /pathname`" command, as demonstrated by openldap-initscript.
+
+Vulnerability #71:
+    Severity: LOW
+    Package: libldap-common
+    Version: 2.5.13+dfsg-5
+    Description: contrib/slapd-modules/nops/nops.c in OpenLDAP through 2.4.45, when both the nops module and the memberof overlay are enabled, attempts to free a buffer that was allocated on the stack, which allows remote attackers to cause a denial of service (slapd crash) via a member MODDN operation.
+
+Vulnerability #72:
+    Severity: LOW
+    Package: libldap-common
+    Version: 2.5.13+dfsg-5
+    Description: libldap in certain third-party OpenLDAP packages has a certificate-validation flaw when the third-party package is asserting RFC6125 support. It considers CN even when there is a non-matching subjectAltName (SAN). This is fixed in, for example, openldap-2.4.46-10.el8 in Red Hat Enterprise Linux.
+
+Vulnerability #73:
+    Severity: LOW
+    Package: libmount1
+    Version: 2.38.1-5+deb12u3
+    Description: A flaw was found in the util-linux chfn and chsh utilities when compiled with Readline support. The Readline library uses an "INPUTRC" environment variable to get a path to the library config file. When the library cannot parse the specified file, it prints an error message containing data from the file. This flaw allows an unprivileged user to read root-owned files, potentially leading to privilege escalation. This flaw affects util-linux versions prior to 2.37.4.
+
+Vulnerability #74:
+    Severity: MEDIUM
+    Package: libncursesw6
+    Version: 6.4-4
+    Description: NCurse v6.4-20230418 was discovered to contain a segmentation fault via the component _nc_wrap_entry().
+
+Vulnerability #75:
+    Severity: MEDIUM
+    Package: libpam-modules
+    Version: 1.5.2-6+deb12u1
+    Description: A vulnerability was found in PAM. The secret information is stored in memory, where the attacker can trigger the victim program to execute by sending characters to its standard input (stdin). As this occurs, the attacker can train the branch predictor to execute an ROP chain speculatively. This flaw could result in leaked passwords, such as those found in /etc/shadow while performing authentications.
+
+Vulnerability #76:
+    Severity: MEDIUM
+    Package: libpam-modules
+    Version: 1.5.2-6+deb12u1
+    Description: linux-pam (aka Linux PAM) before 1.6.0 allows attackers to cause a denial of service (blocked login process) via mkfifo because the openat call (for protect_dir) lacks O_DIRECTORY.
+
+Vulnerability #77:
+    Severity: MEDIUM
+    Package: libpam-modules-bin
+    Version: 1.5.2-6+deb12u1
+    Description: A vulnerability was found in PAM. The secret information is stored in memory, where the attacker can trigger the victim program to execute by sending characters to its standard input (stdin). As this occurs, the attacker can train the branch predictor to execute an ROP chain speculatively. This flaw could result in leaked passwords, such as those found in /etc/shadow while performing authentications.
+
+Vulnerability #78:
+    Severity: MEDIUM
+    Package: libpam-modules-bin
+    Version: 1.5.2-6+deb12u1
+    Description: linux-pam (aka Linux PAM) before 1.6.0 allows attackers to cause a denial of service (blocked login process) via mkfifo because the openat call (for protect_dir) lacks O_DIRECTORY.
+
+Vulnerability #79:
+    Severity: MEDIUM
+    Package: libpam-runtime
+    Version: 1.5.2-6+deb12u1
+    Description: A vulnerability was found in PAM. The secret information is stored in memory, where the attacker can trigger the victim program to execute by sending characters to its standard input (stdin). As this occurs, the attacker can train the branch predictor to execute an ROP chain speculatively. This flaw could result in leaked passwords, such as those found in /etc/shadow while performing authentications.
+
+Vulnerability #80:
+    Severity: MEDIUM
+    Package: libpam-runtime
+    Version: 1.5.2-6+deb12u1
+    Description: linux-pam (aka Linux PAM) before 1.6.0 allows attackers to cause a denial of service (blocked login process) via mkfifo because the openat call (for protect_dir) lacks O_DIRECTORY.
+
+Vulnerability #81:
+    Severity: MEDIUM
+    Package: libpam0g
+    Version: 1.5.2-6+deb12u1
+    Description: A vulnerability was found in PAM. The secret information is stored in memory, where the attacker can trigger the victim program to execute by sending characters to its standard input (stdin). As this occurs, the attacker can train the branch predictor to execute an ROP chain speculatively. This flaw could result in leaked passwords, such as those found in /etc/shadow while performing authentications.
+
+Vulnerability #82:
+    Severity: MEDIUM
+    Package: libpam0g
+    Version: 1.5.2-6+deb12u1
+    Description: linux-pam (aka Linux PAM) before 1.6.0 allows attackers to cause a denial of service (blocked login process) via mkfifo because the openat call (for protect_dir) lacks O_DIRECTORY.
+
+Vulnerability #83:
+    Severity: LOW
+    Package: libsmartcols1
+    Version: 2.38.1-5+deb12u3
+    Description: A flaw was found in the util-linux chfn and chsh utilities when compiled with Readline support. The Readline library uses an "INPUTRC" environment variable to get a path to the library config file. When the library cannot parse the specified file, it prints an error message containing data from the file. This flaw allows an unprivileged user to read root-owned files, potentially leading to privilege escalation. This flaw affects util-linux versions prior to 2.37.4.
+
+Vulnerability #84:
+    Severity: LOW
+    Package: libsqlite3-0
+    Version: 3.40.1-2+deb12u1
+    Description: A Memory Leak vulnerability exists in SQLite Project SQLite3 3.35.1 and 3.37.0 via maliciously crafted SQL Queries (made via editing the Database File), it is possible to query a record, and leak subsequent bytes of memory that extend beyond the record, which could let a malicious user obtain sensitive information. NOTE: The developer disputes this as a vulnerability stating that If you give SQLite a corrupted database file and submit a query against the database, it might read parts of the database that you did not intend or expect.
+
+Vulnerability #85:
+    Severity: MEDIUM
+    Package: libssl3
+    Version: 3.0.15-1~deb12u1
+    Description: Issue summary: A timing side-channel which could potentially allow recovering
+the private key exists in the ECDSA signature computation.
+
+Impact summary: A timing side-channel in ECDSA signature computations
+could allow recovering the private key by an attacker. However, measuring
+the timing would require either local access to the signing application or
+a very fast network connection with low latency.
+
+There is a timing signal of around 300 nanoseconds when the top word of
+the inverted ECDSA nonce value is zero. This can happen with significant
+probability only for some of the supported elliptic curves. In particular
+the NIST P-521 curve is affected. To be able to measure this leak, the attacker
+process must either be located in the same physical computer or must
+have a very fast network connection with low latency. For that reason
+the severity of this vulnerability is Low.
+
+Vulnerability #86:
+    Severity: LOW
+    Package: libstdc++6
+    Version: 12.2.0-14
+    Description: libiberty/rust-demangle.c in GNU GCC 11.2 allows stack consumption in demangle_const, as demonstrated by nm-new.
+
+Vulnerability #87:
+    Severity: LOW
+    Package: libstdc++6
+    Version: 12.2.0-14
+    Description: **DISPUTED**A failure in the -fstack-protector feature in GCC-based toolchains 
+that target AArch64 allows an attacker to exploit an existing buffer 
+overflow in dynamically-sized local variables in your application 
+without this being detected. This stack-protector failure only applies 
+to C99-style dynamically-sized local variables or those created using 
+alloca(). The stack-protector operates as intended for statically-sized 
+local variables.
+
+The default behavior when the stack-protector 
+detects an overflow is to terminate your application, resulting in 
+controlled loss of availability. An attacker who can exploit a buffer 
+overflow without triggering the stack-protector might be able to change 
+program flow control to cause an uncontrolled loss of availability or to
+ go further and affect confidentiality or integrity. NOTE: The GCC project argues that this is a missed hardening bug and not a vulnerability by itself.
+
+Vulnerability #88:
+    Severity: LOW
+    Package: libsystemd0
+    Version: 252.33-1~deb12u1
+    Description: systemd, when updating file permissions, allows local users to change the permissions and SELinux security contexts for arbitrary files via a symlink attack on unspecified files.
+
+Vulnerability #89:
+    Severity: LOW
+    Package: libsystemd0
+    Version: 252.33-1~deb12u1
+    Description: An issue was discovered in systemd 253. An attacker can modify a sealed log file such that, in some views, not all existing and sealed log messages are displayed. NOTE: the vendor reportedly sent "a reply denying that any of the finding was a security vulnerability."
+
+Vulnerability #90:
+    Severity: LOW
+    Package: libsystemd0
+    Version: 252.33-1~deb12u1
+    Description: An issue was discovered in systemd 253. An attacker can truncate a sealed log file and then resume log sealing such that checking the integrity shows no error, despite modifications. NOTE: the vendor reportedly sent "a reply denying that any of the finding was a security vulnerability."
+
+Vulnerability #91:
+    Severity: LOW
+    Package: libsystemd0
+    Version: 252.33-1~deb12u1
+    Description: An issue was discovered in systemd 253. An attacker can modify the contents of past events in a sealed log file and then adjust the file such that checking the integrity shows no error, despite modifications. NOTE: the vendor reportedly sent "a reply denying that any of the finding was a security vulnerability."
+
+Vulnerability #92:
+    Severity: MEDIUM
+    Package: libtinfo6
+    Version: 6.4-4
+    Description: NCurse v6.4-20230418 was discovered to contain a segmentation fault via the component _nc_wrap_entry().
+
+Vulnerability #93:
+    Severity: LOW
+    Package: libudev1
+    Version: 252.33-1~deb12u1
+    Description: systemd, when updating file permissions, allows local users to change the permissions and SELinux security contexts for arbitrary files via a symlink attack on unspecified files.
+
+Vulnerability #94:
+    Severity: LOW
+    Package: libudev1
+    Version: 252.33-1~deb12u1
+    Description: An issue was discovered in systemd 253. An attacker can modify a sealed log file such that, in some views, not all existing and sealed log messages are displayed. NOTE: the vendor reportedly sent "a reply denying that any of the finding was a security vulnerability."
+
+Vulnerability #95:
+    Severity: LOW
+    Package: libudev1
+    Version: 252.33-1~deb12u1
+    Description: An issue was discovered in systemd 253. An attacker can truncate a sealed log file and then resume log sealing such that checking the integrity shows no error, despite modifications. NOTE: the vendor reportedly sent "a reply denying that any of the finding was a security vulnerability."
+
+Vulnerability #96:
+    Severity: LOW
+    Package: libudev1
+    Version: 252.33-1~deb12u1
+    Description: An issue was discovered in systemd 253. An attacker can modify the contents of past events in a sealed log file and then adjust the file such that checking the integrity shows no error, despite modifications. NOTE: the vendor reportedly sent "a reply denying that any of the finding was a security vulnerability."
+
+Vulnerability #97:
+    Severity: LOW
+    Package: libuuid1
+    Version: 2.38.1-5+deb12u3
+    Description: A flaw was found in the util-linux chfn and chsh utilities when compiled with Readline support. The Readline library uses an "INPUTRC" environment variable to get a path to the library config file. When the library cannot parse the specified file, it prints an error message containing data from the file. This flaw allows an unprivileged user to read root-owned files, potentially leading to privilege escalation. This flaw affects util-linux versions prior to 2.37.4.
+
+Vulnerability #98:
+    Severity: MEDIUM
+    Package: login
+    Version: 1:4.13+dfsg1-1+b1
+    Description: A flaw was found in shadow-utils. When asking for a new password, shadow-utils asks the password twice. If the password fails on the second attempt, shadow-utils fails in cleaning the buffer used to store the first entry. This may allow an attacker with enough access to retrieve the password from the memory.
+
+Vulnerability #99:
+    Severity: LOW
+    Package: login
+    Version: 1:4.13+dfsg1-1+b1
+    Description: initscripts in rPath Linux 1 sets insecure permissions for the /var/log/btmp file, which allows local users to obtain sensitive information regarding authentication attempts.  NOTE: because sshd detects the insecure permissions and does not log certain events, this also prevents sshd from logging failed authentication attempts by remote attackers.
+
+Vulnerability #100:
+    Severity: LOW
+    Package: login
+    Version: 1:4.13+dfsg1-1+b1
+    Description: In Shadow 4.13, it is possible to inject control characters into fields provided to the SUID program chfn (change finger). Although it is not possible to exploit this directly (e.g., adding a new user fails because \n is in the block list), it is possible to misrepresent the /etc/passwd file when viewed. Use of \r manipulations and Unicode characters to work around blocking of the : character make it possible to give the impression that a new user has been added. In other words, an adversary may be able to convince a system administrator to take the system offline (an indirect, social-engineered denial of service) by demonstrating that "cat /etc/passwd" shows a rogue user account.
+
+Vulnerability #101:
+    Severity: LOW
+    Package: login
+    Version: 1:4.13+dfsg1-1+b1
+    Description: shadow-utils (aka shadow) 4.4 through 4.17.0 establishes a default /etc/subuid behavior (e.g., uid 100000 through 165535 for the first user account) that can realistically conflict with the uids of users defined on locally administered networks, potentially leading to account takeover, e.g., by leveraging newuidmap for access to an NFS home directory (or same-host resources in the case of remote logins by these local network users). NOTE: it may also be argued that system administrators should not have assigned uids, within local networks, that are within the range that can occur in /etc/subuid.
+
+Vulnerability #102:
+    Severity: LOW
+    Package: login
+    Version: 1:4.13+dfsg1-1+b1
+    Description: No description
+
+Vulnerability #103:
+    Severity: LOW
+    Package: mount
+    Version: 2.38.1-5+deb12u3
+    Description: A flaw was found in the util-linux chfn and chsh utilities when compiled with Readline support. The Readline library uses an "INPUTRC" environment variable to get a path to the library config file. When the library cannot parse the specified file, it prints an error message containing data from the file. This flaw allows an unprivileged user to read root-owned files, potentially leading to privilege escalation. This flaw affects util-linux versions prior to 2.37.4.
+
+Vulnerability #104:
+    Severity: MEDIUM
+    Package: ncurses-base
+    Version: 6.4-4
+    Description: NCurse v6.4-20230418 was discovered to contain a segmentation fault via the component _nc_wrap_entry().
+
+Vulnerability #105:
+    Severity: MEDIUM
+    Package: ncurses-bin
+    Version: 6.4-4
+    Description: NCurse v6.4-20230418 was discovered to contain a segmentation fault via the component _nc_wrap_entry().
+
+Vulnerability #106:
+    Severity: MEDIUM
+    Package: openssl
+    Version: 3.0.15-1~deb12u1
+    Description: Issue summary: A timing side-channel which could potentially allow recovering
+the private key exists in the ECDSA signature computation.
+
+Impact summary: A timing side-channel in ECDSA signature computations
+could allow recovering the private key by an attacker. However, measuring
+the timing would require either local access to the signing application or
+a very fast network connection with low latency.
+
+There is a timing signal of around 300 nanoseconds when the top word of
+the inverted ECDSA nonce value is zero. This can happen with significant
+probability only for some of the supported elliptic curves. In particular
+the NIST P-521 curve is affected. To be able to measure this leak, the attacker
+process must either be located in the same physical computer or must
+have a very fast network connection with low latency. For that reason
+the severity of this vulnerability is Low.
+
+Vulnerability #107:
+    Severity: MEDIUM
+    Package: passwd
+    Version: 1:4.13+dfsg1-1+b1
+    Description: A flaw was found in shadow-utils. When asking for a new password, shadow-utils asks the password twice. If the password fails on the second attempt, shadow-utils fails in cleaning the buffer used to store the first entry. This may allow an attacker with enough access to retrieve the password from the memory.
+
+Vulnerability #108:
+    Severity: LOW
+    Package: passwd
+    Version: 1:4.13+dfsg1-1+b1
+    Description: initscripts in rPath Linux 1 sets insecure permissions for the /var/log/btmp file, which allows local users to obtain sensitive information regarding authentication attempts.  NOTE: because sshd detects the insecure permissions and does not log certain events, this also prevents sshd from logging failed authentication attempts by remote attackers.
+
+Vulnerability #109:
+    Severity: LOW
+    Package: passwd
+    Version: 1:4.13+dfsg1-1+b1
+    Description: In Shadow 4.13, it is possible to inject control characters into fields provided to the SUID program chfn (change finger). Although it is not possible to exploit this directly (e.g., adding a new user fails because \n is in the block list), it is possible to misrepresent the /etc/passwd file when viewed. Use of \r manipulations and Unicode characters to work around blocking of the : character make it possible to give the impression that a new user has been added. In other words, an adversary may be able to convince a system administrator to take the system offline (an indirect, social-engineered denial of service) by demonstrating that "cat /etc/passwd" shows a rogue user account.
+
+Vulnerability #110:
+    Severity: LOW
+    Package: passwd
+    Version: 1:4.13+dfsg1-1+b1
+    Description: shadow-utils (aka shadow) 4.4 through 4.17.0 establishes a default /etc/subuid behavior (e.g., uid 100000 through 165535 for the first user account) that can realistically conflict with the uids of users defined on locally administered networks, potentially leading to account takeover, e.g., by leveraging newuidmap for access to an NFS home directory (or same-host resources in the case of remote logins by these local network users). NOTE: it may also be argued that system administrators should not have assigned uids, within local networks, that are within the range that can occur in /etc/subuid.
+
+Vulnerability #111:
+    Severity: LOW
+    Package: passwd
+    Version: 1:4.13+dfsg1-1+b1
+    Description: No description
+
+Vulnerability #112:
+    Severity: HIGH
+    Package: perl-base
+    Version: 5.36.0-7+deb12u1
+    Description: CPAN.pm before 2.35 does not verify TLS certificates when downloading distributions over HTTPS.
+
+Vulnerability #113:
+    Severity: LOW
+    Package: perl-base
+    Version: 5.36.0-7+deb12u1
+    Description: _is_safe in the File::Temp module for Perl does not properly handle symlinks.
+
+Vulnerability #114:
+    Severity: LOW
+    Package: perl-base
+    Version: 5.36.0-7+deb12u1
+    Description: HTTP::Tiny before 0.083, a Perl core module since 5.13.9 and available standalone on CPAN, has an insecure default TLS configuration where users must opt in to verify certificates.
+
+Vulnerability #115:
+    Severity: LOW
+    Package: sysvinit-utils
+    Version: 3.06-4
+    Description: No description
+
+Vulnerability #116:
+    Severity: LOW
+    Package: tar
+    Version: 1.34+dfsg-1.2+deb12u1
+    Description: Tar 1.15.1 does not properly warn the user when extracting setuid or setgid files, which may allow local users or remote attackers to gain privileges.
+
+Vulnerability #117:
+    Severity: LOW
+    Package: tar
+    Version: 1.34+dfsg-1.2+deb12u1
+    Description: No description
+
+Vulnerability #118:
+    Severity: LOW
+    Package: util-linux
+    Version: 2.38.1-5+deb12u3
+    Description: A flaw was found in the util-linux chfn and chsh utilities when compiled with Readline support. The Readline library uses an "INPUTRC" environment variable to get a path to the library config file. When the library cannot parse the specified file, it prints an error message containing data from the file. This flaw allows an unprivileged user to read root-owned files, potentially leading to privilege escalation. This flaw affects util-linux versions prior to 2.37.4.
+
+Vulnerability #119:
+    Severity: LOW
+    Package: util-linux-extra
+    Version: 2.38.1-5+deb12u3
+    Description: A flaw was found in the util-linux chfn and chsh utilities when compiled with Readline support. The Readline library uses an "INPUTRC" environment variable to get a path to the library config file. When the library cannot parse the specified file, it prints an error message containing data from the file. This flaw allows an unprivileged user to read root-owned files, potentially leading to privilege escalation. This flaw affects util-linux versions prior to 2.37.4.
+
+Vulnerability #120:
+    Severity: CRITICAL
+    Package: zlib1g
+    Version: 1:1.2.13.dfsg-1
+    Description: MiniZip in zlib through 1.3 has an integer overflow and resultant heap-based buffer overflow in zipOpenNewFileInZip4_64 via a long filename, comment, or extra field. NOTE: MiniZip is not a supported part of the zlib product. NOTE: pyminizip through 0.2.6 is also vulnerable because it bundles an affected zlib version, and exposes the applicable MiniZip code through its compress API.
+
+Vulnerability #121:
+    Severity: MEDIUM
+    Package: pip
+    Version: 23.0.1
+    Fixed in: 23.3
+    Description: When installing a package from a Mercurial VCS URL  (ie "pip install 
+hg+...") with pip prior to v23.3, the specified Mercurial revision could
+ be used to inject arbitrary configuration options to the "hg clone" 
+call (ie "--config"). Controlling the Mercurial configuration can modify
+ how and which repository is installed. This vulnerability does not 
+affect users who aren't installing from Mercurial.
+
+Vulnerability #122:
+    Severity: HIGH
+    Package: setuptools
+    Version: 58.1.0
+    Fixed in: 65.5.1
+    Description: Python Packaging Authority (PyPA) setuptools before 65.5.1 allows remote attackers to cause a denial of service via HTML in a crafted package or custom PackageIndex page. There is a Regular Expression Denial of Service (ReDoS) in package_index.py.
+
+Vulnerability #123:
+    Severity: HIGH
+    Package: setuptools
+    Version: 58.1.0
+    Fixed in: 70.0.0
+    Description: A vulnerability in the package_index module of pypa/setuptools versions up to 69.1.1 allows for remote code execution via its download functions. These functions, which are used to download packages from URLs provided by users or retrieved from package index servers, are susceptible to code injection. If these functions are exposed to user-controlled inputs, such as package URLs, they can execute arbitrary commands on the system. The issue is fixed in version 70.0.
+
+==================================================
