@@ -77,7 +77,7 @@ Deep analysis with colored output in terminal:
 ```bash
 dclean analyze dockerfiles/Dockerfile --deep
 ```
-![Terminal Output](https://github.com/mist941/dclean/blob/main/examples/terminal_output.png)
+![Terminal Output](https://raw.githubusercontent.com/mist941/dclean/refs/heads/main/examples/terminal_output.png)
 
 Save results to a file:
 ```bash
