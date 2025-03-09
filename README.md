@@ -98,7 +98,14 @@ dclean/
 ```
 
 ## Technologies
+DClean is built using the following technologies and tools:
 
+- **Python 3.10+**: Core programming language
+- **Click**: Command-line interface creation
+- **Docker SDK for Python**: Interacting with Docker API
+- **Trivy**: Vulnerability scanning for container images
+- **pytest**: Testing framework
+- **flake8**: Linting
 
 ## Authors
 
