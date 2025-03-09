@@ -1,7 +1,7 @@
 # 🐳 DClean
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-0.1.0-green.svg)](https://semver.org)
+[![Version](https://img.shields.io/badge/version-0.1.1-green.svg)](https://semver.org)
 
 ⭐ If you find this project useful, please consider giving it a star to show your support!
 
@@ -52,7 +52,7 @@ dclean version
 ```
 You should see the following output:
 ```bash
-dclean version 0.1.0
+dclean version 0.1.1
 ```
 
 ## Usage
