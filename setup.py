@@ -29,8 +29,15 @@ setup(
         "Topic :: System :: Systems Administration",
     ],
     python_requires=">=3.10",
-    keywords=
-    "docker, optimization, cleaning, containerization, security, vulnerability, trivy",
+    keywords=[
+        "docker",
+        "optimization",
+        "cleaning",
+        "containerization",
+        "security",
+        "vulnerability",
+        "trivy",
+    ],
     project_urls={
         "Bug Reports": "https://github.com/mist941/dclean/issues",
         "Source": "https://github.com/mist941/dclean",
